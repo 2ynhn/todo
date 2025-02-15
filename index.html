@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Todo List</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<div class="code-works">
+		<div class="head">
+			<h1>Todo List</h1>
+			<div id="keywords"></div>
+			<div class="how">
+				<button id="save-button">저장</button>
+				<button id="load-button">로드</button> <input type="file" id="file-input" accept=".json">
+			</div>
+			<div class="find-string">
+				<input type="text" id="find_file_string" placeholder="내용 검색"> <button id="find_string">Find</button>
+			</div>
+		</div>
+
+		<div class="content">
+			<form class="js-toDoForm">
+				<div class="fields">
+					<div class="date-title">
+						<input type="date" id="Ydate" value="" autocomplete="off" />
+						<input type="text" id="Ytitle" placeholder="[키워드, 키워드] 업무내용" autocomplete="off" />
+					</div>
+					<div class="url">
+						<input type="text" id="Yurl" placeholder="notion URL" />
+					</div>
+					<div class="detail">
+						<textarea id="Ydeploy" rows="3" placeholder="상세내용" autocomplete="off"></textarea>
+					</div>
+				</div>
+				<div class="submit">
+					<button id="Ysubmit">Add</button>
+				</div>
+			</form>
+			<div class="work-list">
+				<ul class="ul" id="todo-list">
+					<!-- {} -->
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+
+</html>

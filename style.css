@@ -1,0 +1,90 @@
+html {}
+body {margin:0; font-size:16px; color:#999; background-color:#4e4e4e; font-family:'맑은 고딕', 'malgun gothic', sans-serif;} 
+ul {margin:0; padding-inline-start:0} 
+li {list-style:none;} 
+ul, div, li, p, span, em, strong {font-size:.85rem; margin:0; box-sizing:border-box;}
+input, textarea {font-family:inherit;}
+a {text-decoration:none; color:#ccc;}
+
+.code-works {position:relative; padding:0 20px; margin:0 auto;}
+.code-works .head {position:sticky; top:-40px; z-index: 1;}
+.how {} 
+#keywords {} 
+#downJson {border-radius:6px; display:inline-block; padding:0 15px; text-align:center; line-height:2; font-size:13px; font-weight:bold; color:#fff; background-color:#3f3f3f; text-decoration:none;}
+#howtouse {position:absolute; right:190px; top:16px; text-decoration:underline;}
+
+.content {height:100%;}
+.js-toDoForm {position:sticky; top:40px; display: flex; align-items:stretch; background-color:#111; padding:6px; border-radius:6px; z-index:1;}
+.js-toDoForm .fields {flex:1}
+.js-toDoForm .submit {flex:0 0 100px; margin-left:12px;}
+.js-toDoForm input, .js-toDoForm textarea, .js-toDoForm button {display:inline-block; vertical-align:top; padding:3px 10px; font-size:13px; border:0; border-radius:4px; line-height:1.5; box-sizing:border-box; background-color:#cecece;} 
+.js-toDoForm input:focus, .js-toDoForm textarea:focus {background-color:#efefef;} 
+.fields > div + div {margin-top: 4px;}
+.fields .date-title {display: flex; gap: 4px;}
+.fields input, .fields textarea {width: 100%;}
+#Ydate {flex:0 0 80px}
+#Ytitle {flex:1;}
+#Ysubmit {width:100%; height:100%; font-size:16px; font-weight:bold;} 
+
+.li {position:relative; padding:8px 30px 8px 4px;}
+.li + .li {border-top:1px solid rgba(255, 255, 255, .12);}
+.li.current {background-color:#444;}
+.li.list-checked {background-color:#363427;}
+.li.ended.list-checked {background-color:#000;}
+.li button {border:0; border-radius:2px;}
+.li .title {font-weight:normal; margin:0; color:#bababa; top:1px;} 
+.li .project {color:#fff;} 
+.li .fn-btn {position:absolute; top:6px; right:40px; transform:translateX(100%); text-align:right; opacity:0; transition:opacity .2s;} 
+.li:hover .fn-btn {opacity:1;} 
+.li .fn-update {position:absolute; top:0; left:-16px; opacity:0;}
+.li .fn-update button {font-size:10px; display:inline-block; width:16px; height:16px; padding:1px 2px; text-align:center; }
+.li:hover .fn-update {opacity:1;}
+.work-list {position:relative;}
+.ul {}
+.work-list.on-edit .fn-btn, .work-list.on-edit .deploy-file {display:none;} 
+.li .delete, .li .edit, .li .submit {display:inline-block; vertical-align:top;} 
+.li .delete {position:relative; top:3px; font-size:10px; padding:1px 2px;} 
+.li .edit {} 
+.li .submit {position:absolute; top:4px; right:0; text-align:right;} 
+.li .deploy-file {display:inline-block; margin-left:5px; vertical-align:top; background-color:#333; color:#ccc;} 
+li span.date, li span.project, li span.title {position:relative; display:inline-block; vertical-align:top;} 
+li span.date {width:76px; font-style:normal; font-weight: normal; color:#bababa;} 
+li span.project {width:auto;} 
+li span.title {max-width:calc(100% - 245px);} 
+li span.project i {position:relative; font-style:normal;}
+li span.project i:active {top:1px;}
+li span.date input, li span.project input, li span.title input {position:relative; left:50%; transform:translateX(-50%); width:100%; border:0; border-radius:2px;} 
+li span.title input {min-width:230%; left:0; transform:translateX(0);} 
+li span.project input {max-width:70px;} 
+li .deploy-edit {position:absolute; padding:15px 10px; top:30px; left:0; width:calc(100% - 150px); min-height:200px; z-index:10; border:0; border-radius:4px;} 
+li[class*="day-in"] 
+.date {color:orange;}
+li.day-in0 .date {color:red; font-weight:bold; opacity:1;} /* today */
+li.day-in-3 .date {color:orange} /* -3day ago */
+li.day-in-2 .date {color:orange} /* -2day ago */
+li.day-in-1 .date {color:orange} /* -1day ago */
+li.day-in1 .date {color:yellow} /* 1day next */
+li.day-in2 .date {color:yellow} /* 2day next */
+li.day-in3 .date {color:yellow} /* 3day next */ 
+li.ended .title {color:#666;}
+li.ended .date {font-weight:normal; opacity:.8; color:#999}
+li.ended .project {color:#888;}
+li.day-in0.ended .date {color:red;}
+.find-string {display:none; position:absolute; top:45px; right:0; width:500px; text-align:right;}
+.find-string input {width:calc(100% - 90px); border-radius:2px; border:0 none; background-color:#333; padding:3px 10px; display:inline-block; box-sizing:border-box;}
+.find-string input:focus {background-color:#eee;}
+.find-string button {width:60px; border-radius:2px; color:#fff; border:0 none; background-color:#3f3f3f; padding:3px 10px;}
+.deploy {font-size:0; display:none; } 
+.deploy pre {font-size:14px; border:1px solid #454545; padding:10px; border-radius:6px; background-color:#2a2a2a;} 
+.layer {width:600px; height:auto; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:#fff; border-radius:12px;} .layer .cont {padding:20px 14px;} .layer .cont textarea {padding:10px 14px;}
+.keyword {display:inline-block; border-radius:8px; padding:2px 8px; margin-right:6px; margin-bottom:4px; white-space:nowrap; background-color:#333;}
+.keyword.active {background-color:#ccc; color:#000;}
+.keyword.active.ended {background-color:#ccc; color:#000;}
+@media(max-width:479px){
+    .js-toDoForm {}
+    h1.h1-title {font-size:1.4em;}
+    .code-works {max-width:100%; padding:100px 15px 20px;}
+    .li span.title {display:block; width:100%; max-width:100%; margin-bottom:6px;}
+    .layer {width:auto; min-width:80%; position:absolute;}
+    .li .fn-btn {opacity:1; position:static; transform:translate(0); margin-top:-20px;}
+}

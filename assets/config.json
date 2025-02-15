@@ -1,0 +1,48 @@
+{
+    "system_settings": {
+      "version": "1.0"
+    },
+    "users": [
+      {
+        "id": "2yunhan",
+        "name": "leeyunhan",
+        "role": "master",
+        "permissions": {
+          "system_control": true,
+          "user_management": true,
+          "content_modification": true
+        },
+        "active": true
+      },
+      {
+        "id": "metallica",
+        "name": "metallica go",
+        "role": "member",
+        "permissions": {
+          "system_control": false,
+          "user_management": false,
+          "content_modification": false
+        },
+        "active": true
+      },
+      {
+        "id": "nice-guy",
+        "name": "nice guy",
+        "role": "member",
+        "permissions": {
+          "system_control": false,
+          "user_management": false,
+          "content_modification": true
+        },
+        "active": true
+      }
+    ],
+    "features": {
+      "enable_analytics": true,
+      "auto_update": false,
+      "backup_settings": {
+        "interval": "daily",
+        "retention_days": 7
+      }
+    }
+  }

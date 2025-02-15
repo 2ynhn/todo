@@ -13,6 +13,10 @@ a {text-decoration:none; color:#ccc;}
 #downJson {border-radius:6px; display:inline-block; padding:0 15px; text-align:center; line-height:2; font-size:13px; font-weight:bold; color:#fff; background-color:#3f3f3f; text-decoration:none;}
 #howtouse {position:absolute; right:190px; top:16px; text-decoration:underline;}
 
+.tabs {}
+.tabs .tab {opacity:.5;}
+.tabs .tab.active {opacity: 1;}
+
 .content {height:100%;}
 .js-toDoForm {position:sticky; top:40px; display: flex; align-items:stretch; background-color:#111; padding:6px; border-radius:6px; z-index:1;}
 .js-toDoForm .fields {flex:1}

@@ -8,11 +8,88 @@ const loadButton = document.getElementById('load-button');
 const fileInput = document.getElementById('file-input');
 const saveButton = document.getElementById('save-button');
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+// users by config.json
+let config, users, masterId;
+
+
+fetch('/masterUserId')
+    .then(response => response.json())
+    .then(data => {
+        if (data.masterId) {
+        masterId = data.masterId;
+        // masterId를 사용하여 필요한 작업 수행
+        console.log('Master ID:', masterId);
+        } else {
+        console.error(data.message);
+        }
+    });
+
+
+fetch('./assets/config.json')
+    .then(response => response.json())
+    .then(config => {
+        if (config && config.users && Array.isArray(config.users)) {
+            users = config.users;
+            // users를 사용하여 탭 생성 및 이벤트 처리
+            usersInit(users);
+        }
+    })
+    .then( () => {
+        loadTodoData(masterId);
+    })
+
+
+
+
+async function usersInit(users) {
+    const tabs = document.querySelector('.tabs');
+    users.forEach(user => {
+      if (user.active) {
+        const tab = document.createElement('button');
+        tab.classList.add('tab');
+        tab.dataset.userId = user.id;
+        tab.textContent = user.name;
+        tabs.appendChild(tab);
+    
+        tab.addEventListener('click', () => {
+          const userId = tab.dataset.userId;
+          loadTodoData(userId);
+        });
+      }
+    });
+}
+
+async function currentTabInit(userId) {
+    const tabButtons = document.querySelectorAll('.tab');
+    tabButtons.forEach(t => {
+        t.classList.remove('active');
+        if (t.dataset.userId == userId) {
+            t.classList.add('active');
+        }
+    });
+}
+
+async function loadTodoData(userId) {
+    try {
+        const response = await fetch(`./data/${userId}.json`);
+        const todoData = await response.json();
+        renderTodos(todoData);    
+        currentTabInit(userId);
+    } catch (error) {
+        console.error('Error loading todo data:', error);
+    }
+}
+
 function generateId() {
     return Math.random().toString(36).substring(2, 15);
 }
-function renderTodos() {
+function renderTodos(todos) {
     todoList.innerHTML = '';
+    if (todos.length === 0) {
+        todoList.innerHTML = '<p>No todo found.</p>';
+        return;
+    }
     todos.forEach((todo) => {
         const li = document.createElement('li');
         li.classList.add('li');
@@ -31,6 +108,7 @@ function renderTodos() {
 }
 function saveTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
+    saveButton.click();
 }
 addButton.addEventListener('click', () => {
     const newTodo = {
@@ -39,11 +117,11 @@ addButton.addEventListener('click', () => {
         detail: todoDetail.value,
         date: todoDate.value,
         url: todoUrl.value,
-        enden: false, // 완료 여부 (기본값: false)
+        ended: false, // 완료 여부 (기본값: false)
     };
     todos.push(newTodo);
     saveTodos();
-    renderTodos();
+    renderTodos(todos);
     todoTitle.value = '';
     todoDetail.value = '';
     todoDate.value = '';
@@ -54,7 +132,7 @@ todoList.addEventListener('click', (event) => {
         const id = event.target.dataset.id;
         todos = todos.filter(todo => todo.id !== id);
         saveTodos();
-        renderTodos();
+        renderTodos(todos);
     }
 });
 loadButton.addEventListener('click', () => {
@@ -68,7 +146,7 @@ fileInput.addEventListener('change', (event) => {
             const loadedTodos = JSON.parse(e.target.result);
             todos = loadedTodos;
             saveTodos();
-            renderTodos();
+            renderTodos(todos);
         } catch (error) {
             console.error('Error loading JSON file:', error);
             alert('Invalid JSON file.');
@@ -90,4 +168,7 @@ saveButton.addEventListener('click', () => {
     });
 });
 
-renderTodos();
+// renderTodos(todos);
+addEventListener("DOMContentLoaded", (e) => {
+    // loadTodoData(masterId);
+});

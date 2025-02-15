@@ -10,7 +10,7 @@ const saveButton = document.getElementById('save-button');
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 // users by config.json
-let config, users, masterId;
+let config, users, masterId, activeUser;
 
 
 fetch('/masterUserId')
@@ -38,7 +38,6 @@ fetch('./assets/config.json')
     .then( () => {
         loadTodoData(masterId);
     })
-
 
 
 
@@ -74,6 +73,7 @@ async function loadTodoData(userId) {
     try {
         const response = await fetch(`./data/${userId}.json`);
         const todoData = await response.json();
+        activeUser = userId;    // activeUser = userId;
         renderTodos(todoData);    
         currentTabInit(userId);
     } catch (error) {
@@ -90,19 +90,82 @@ function renderTodos(todos) {
         todoList.innerHTML = '<p>No todo found.</p>';
         return;
     }
-    todos.forEach((todo) => {
+    todos.forEach((todo, index) => {
         const li = document.createElement('li');
+        li.dataset.index = index;   // 데이터셋에 index 저장 (수정 시 활용)
         li.classList.add('li');
         li.setAttribute('id', todo.id);
-        li.innerHTML = `
-            <p>
-                <span class="date">${todo.date}</span>
-                <span class="title">${todo.title}</span>
-            </p>
-            <p class="url">URL: ${todo.url}</p>
-            <p class="deploy"><pre>${todo.detail}</pre></p>
-            <button class="delete-button" data-id="${todo.id}">삭제</button>
-        `;
+        console.log(masterId, activeUser);
+        if(masterId === activeUser){   // master 유저 인 경우
+            li.innerHTML = `
+                <p class="date-title">
+                    <span class="date">${todo.date}</span>
+                    <span class="title">${todo.title}</span>
+                </p>
+                <p class="url">URL: ${todo.url}</p>
+                <p class="deploy"><pre>${todo.detail}</pre></p>
+                <button class="edit-button" data-id="${todo.id}">수정</button>
+                <button class="delete-button" data-id="${todo.id}">삭제</button>
+            `;
+            const editButton = li.querySelector('.edit-button');
+            editButton.addEventListener('click', () => {
+                li.innerHTML = `
+                    <input type="date" class="edit-date" value="${todo.date}">
+                    <input type="text" class="edit-title" value="${todo.title}">
+                    <textarea class="edit-detail">${todo.detail}</textarea>
+                    <input type="checkbox" class="edit-ended" ${todo.ended ? 'checked' : ''}>
+                    <input type="text" class="edit-url" value="${todo.url}">
+                    <button class="save-button">Save</button>
+                    <button class="cancel-button">Cancel</button>
+                `;
+                // Save 버튼 클릭 이벤트
+                const saveButton = li.querySelector('.save-button');
+                saveButton.addEventListener('click', () => {
+                    const editID = li.getAttribute('id');
+                    const editDate = li.querySelector('.edit-date').value;
+                    const editTitle = li.querySelector('.edit-title').value;
+                    const editDetail = li.querySelector('.edit-detail').value;
+                    const editEnded = li.querySelector('.edit-ended').checked;
+                    const editUrl = li.querySelector('.edit-url').value;
+
+                    todos[index] = { // todos 업데이트
+                        id: editID,
+                        date: editDate,
+                        title: editTitle,
+                        detail: editDetail,
+                        ended: editEnded,
+                        url: editUrl
+                    };
+
+                    saveTodos(todos); // 서버에 저장
+                    renderTodos(todos); // 화면 다시 렌더링
+                });
+
+                // Cancel 버튼 클릭 이벤트
+                const cancelButton = li.querySelector('.cancel-button');
+                cancelButton.addEventListener('click', () => {
+                    renderTodos(todos); // 원래 상태로 되돌리기
+                });
+            });
+
+            // Delete 버튼 클릭 이벤트
+            const deleteButton = li.querySelector('.delete-button');
+            deleteButton.addEventListener('click', () => {
+                todos.splice(index, 1); // todos 삭제
+                saveTodos(todos); // 서버에 저장
+                renderTodos(todos); // 화면 다시 렌더링
+            });
+        } else {    // member 유저 인 경우 view만 제공공
+            li.innerHTML = `
+                <p class="date-title">
+                    <span class="date">${todo.date}</span>
+                    <span class="title">${todo.title}</span>
+                </p>
+                <p class="url">URL: ${todo.url}</p>
+                <p class="deploy"><pre>${todo.detail}</pre></p>
+            `;
+        }
+        
         todoList.appendChild(li);
     });
 }
@@ -168,7 +231,5 @@ saveButton.addEventListener('click', () => {
     });
 });
 
-// renderTodos(todos);
-addEventListener("DOMContentLoaded", (e) => {
-    // loadTodoData(masterId);
-});
+// UI 
+document.getElementById('Ydate').valueAsDate = new Date();

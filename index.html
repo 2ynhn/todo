@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="./assets/images/favicon.ico" />
 	<title>Todo List</title>
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
@@ -11,8 +12,8 @@
 <body>
 	<div class="code-works">
 		<div class="head">
-			<h1>Todo List</h1>
-			<div id="keywords"></div>
+			<h1 class="logo">Todo List</h1>
+			<div class="tabs"></div>
 			<div class="how">
 				<button id="save-button">저장</button>
 				<button id="load-button">로드</button> <input type="file" id="file-input" accept=".json">
@@ -20,9 +21,7 @@
 			<div class="find-string">
 				<input type="text" id="find_file_string" placeholder="내용 검색"> <button id="find_string">Find</button>
 			</div>
-		</div>
-
-		<div class="tabs">
+			<div id="keywords"></div>
 		</div>
 
 		<div class="content">
@@ -40,7 +39,7 @@
 					</div>
 				</div>
 				<div class="submit">
-					<button id="Ysubmit">Add</button>
+					<button id="Ysubmit" type="button">Add</button>
 				</div>
 			</form>
 			<div class="work-list">
@@ -50,7 +49,6 @@
 			</div>
 		</div>
 	</div>
-
 	<script src="./assets/script.js"></script>
 </body>
 

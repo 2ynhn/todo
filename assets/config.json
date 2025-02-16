@@ -2,10 +2,11 @@
     "system_settings": {
       "version": "1.0"
     },
+    "theme" : "dark",
     "users": [
       {
         "id": "2yunhan",
-        "name": "leeyunhan",
+        "name": "이윤한",
         "role": "master",
         "permissions": {
           "system_control": true,
@@ -16,7 +17,7 @@
       },
       {
         "id": "metallica",
-        "name": "metallica go",
+        "name": "이은화",
         "role": "member",
         "permissions": {
           "system_control": false,
@@ -27,7 +28,7 @@
       },
       {
         "id": "nice-guy",
-        "name": "nice guy",
+        "name": "조정우",
         "role": "member",
         "permissions": {
           "system_control": false,

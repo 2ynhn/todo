@@ -12,34 +12,35 @@ let todos = JSON.parse(localStorage.getItem('todos')) || [];
 // users by config.json
 let config, users, masterId, activeUser;
 
-
-fetch('/masterUserId')
+(async function(){
+await fetch('/masterUserId')
     .then(response => response.json())
     .then(data => {
         if (data.masterId) {
-        masterId = data.masterId;
-        // masterId를 사용하여 필요한 작업 수행
-        console.log('Master ID:', masterId);
+            masterId = data.masterId;
+            console.log('Master ID:', masterId);
+            loadTodoData(masterId);
         } else {
-        console.error(data.message);
+            renderTodos(todos);
         }
     });
 
-
-fetch('./assets/config.json')
+await fetch('./assets/config.json')
     .then(response => response.json())
     .then(config => {
         if (config && config.users && Array.isArray(config.users)) {
-            users = config.users;
             // users를 사용하여 탭 생성 및 이벤트 처리
+            users = config.users;            
             usersInit(users);
+
+            // theme css를 적용
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = `./assets/${config.theme}.css`; // 테마에 맞는 CSS 파일 로드
+            document.head.appendChild(link);
         }
     })
-    .then( () => {
-        loadTodoData(masterId);
-    })
-
-
+})();
 
 async function usersInit(users) {
     const tabs = document.querySelector('.tabs');
@@ -49,12 +50,14 @@ async function usersInit(users) {
         tab.classList.add('tab');
         tab.dataset.userId = user.id;
         tab.textContent = user.name;
-        tabs.appendChild(tab);
-    
+        tabs.appendChild(tab);    
         tab.addEventListener('click', () => {
           const userId = tab.dataset.userId;
           loadTodoData(userId);
         });
+        if (user.id == masterId) {
+            tab.classList.add('active');
+        }
       }
     });
 }
@@ -62,6 +65,7 @@ async function usersInit(users) {
 async function currentTabInit(userId) {
     const tabButtons = document.querySelectorAll('.tab');
     tabButtons.forEach(t => {
+        console.log(userId, tabButtons)
         t.classList.remove('active');
         if (t.dataset.userId == userId) {
             t.classList.add('active');
@@ -74,7 +78,7 @@ async function loadTodoData(userId) {
         const response = await fetch(`./data/${userId}.json`);
         const todoData = await response.json();
         activeUser = userId;    // activeUser = userId;
-        renderTodos(todoData);    
+        renderTodos(todoData);
         currentTabInit(userId);
     } catch (error) {
         console.error('Error loading todo data:', error);
@@ -95,17 +99,18 @@ function renderTodos(todos) {
         li.dataset.index = index;   // 데이터셋에 index 저장 (수정 시 활용)
         li.classList.add('li');
         li.setAttribute('id', todo.id);
-        console.log(masterId, activeUser);
         if(masterId === activeUser){   // master 유저 인 경우
             li.innerHTML = `
                 <p class="date-title">
                     <span class="date">${todo.date}</span>
                     <span class="title">${todo.title}</span>
                 </p>
-                <p class="url">URL: ${todo.url}</p>
-                <p class="deploy"><pre>${todo.detail}</pre></p>
-                <button class="edit-button" data-id="${todo.id}">수정</button>
-                <button class="delete-button" data-id="${todo.id}">삭제</button>
+                <p class="functions">
+                    <a href="${todo.url}" class="url" title="${todo.url}" target="_blank">url</a>
+                    <button class="edit-button" data-id="${todo.id}">수정</button>
+                    <button class="delete-button" data-id="${todo.id}">삭제</button>
+                </p>
+                <div class="deploy"><pre>${todo.detail}</pre></div>
             `;
             const editButton = li.querySelector('.edit-button');
             editButton.addEventListener('click', () => {
@@ -161,8 +166,10 @@ function renderTodos(todos) {
                     <span class="date">${todo.date}</span>
                     <span class="title">${todo.title}</span>
                 </p>
-                <p class="url">URL: ${todo.url}</p>
-                <p class="deploy"><pre>${todo.detail}</pre></p>
+                <p class="functions">
+                    <a href="${todo.url}" class="url" title="${todo.url}" target="_blank">url</a>
+                </p>
+                <div class="deploy"><pre>${todo.detail}</pre></div>
             `;
         }
         

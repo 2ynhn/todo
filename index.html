@@ -24,24 +24,26 @@
 			<div id="keywords"></div>
 		</div>
 
+		<form class="js-toDoForm">
+			<div class="fields">
+				<div class="date-title">
+					<input type="date" id="Ydate" value="" autocomplete="off" />
+					<input type="text" id="Ytitle" placeholder="[키워드, 키워드] 업무내용" autocomplete="off" />
+				</div>
+				<div class="url">
+					<input type="text" id="Yurl" placeholder="notion URL" />
+				</div>
+				<div class="detail">
+					<textarea id="Ydeploy" rows="3" placeholder="상세내용" autocomplete="off"></textarea>
+				</div>
+			</div>
+			<div class="submit">
+				<button id="Ysubmit" type="button">Add</button>
+			</div>
+		</form>
+
 		<div class="content">
-			<form class="js-toDoForm">
-				<div class="fields">
-					<div class="date-title">
-						<input type="date" id="Ydate" value="" autocomplete="off" />
-						<input type="text" id="Ytitle" placeholder="[키워드, 키워드] 업무내용" autocomplete="off" />
-					</div>
-					<div class="url">
-						<input type="text" id="Yurl" placeholder="notion URL" />
-					</div>
-					<div class="detail">
-						<textarea id="Ydeploy" rows="3" placeholder="상세내용" autocomplete="off"></textarea>
-					</div>
-				</div>
-				<div class="submit">
-					<button id="Ysubmit" type="button">Add</button>
-				</div>
-			</form>
+
 			<div class="work-list">
 				<ul class="ul" id="todo-list">
 					<!-- {} -->

@@ -94,34 +94,45 @@ function renderTodos(todos) {
         todoList.innerHTML = '<p>No todo found.</p>';
         return;
     }
+    todos.sort((a, b) => new Date(b.date) - new Date(a.date));  //sort by date
+
     todos.forEach((todo, index) => {
         const li = document.createElement('li');
+        let urlStr = ``;
         li.dataset.index = index;   // 데이터셋에 index 저장 (수정 시 활용)
         li.classList.add('li');
         li.setAttribute('id', todo.id);
         if(masterId === activeUser){   // master 유저 인 경우
+            if(todo.url !== 'undefined' && todo.url){
+                urlStr = `<a href="${todo.url}" class="url" title="${todo.url}" target="_blank">URL</a>`;
+            }            
             li.innerHTML = `
                 <p class="date-title">
                     <span class="date">${todo.date}</span>
                     <span class="title">${todo.title}</span>
                 </p>
                 <p class="functions">
-                    <a href="${todo.url}" class="url" title="${todo.url}" target="_blank">url</a>
-                    <button class="edit-button" data-id="${todo.id}">수정</button>
-                    <button class="delete-button" data-id="${todo.id}">삭제</button>
+                    ${urlStr}
+                    <button class="edit-button" data-id="${todo.id}">Edit</button>
+                    <button class="delete-button" data-id="${todo.id}">Delete</button>
                 </p>
                 <div class="deploy"><pre>${todo.detail}</pre></div>
             `;
             const editButton = li.querySelector('.edit-button');
             editButton.addEventListener('click', () => {
+                li.classList.add('edit');
                 li.innerHTML = `
-                    <input type="date" class="edit-date" value="${todo.date}">
-                    <input type="text" class="edit-title" value="${todo.title}">
-                    <textarea class="edit-detail">${todo.detail}</textarea>
-                    <input type="checkbox" class="edit-ended" ${todo.ended ? 'checked' : ''}>
-                    <input type="text" class="edit-url" value="${todo.url}">
-                    <button class="save-button">Save</button>
-                    <button class="cancel-button">Cancel</button>
+                    <p class="date-title">
+                        <input type="date" class="edit-date" value="${todo.date}">
+                        <input type="text" class="edit-title" value="${todo.title}">
+                        <input type="text" class="edit-url" value="${todo.url}">
+                        <textarea class="edit-detail" rows="10">${todo.detail}</textarea>
+                    </p>
+                    <p class="functions">
+                        <input type="checkbox" class="edit-ended" ${todo.ended ? 'checked' : ''}>
+                        <button class="save-button">Save</button>
+                        <button class="cancel-button">Cancel</button>
+                    </p>
                 `;
                 // Save 버튼 클릭 이벤트
                 const saveButton = li.querySelector('.save-button');
@@ -161,13 +172,16 @@ function renderTodos(todos) {
                 renderTodos(todos); // 화면 다시 렌더링
             });
         } else {    // member 유저 인 경우 view만 제공공
+            if(todo.url !== 'undefined' && todo.url){
+                urlStr = `<a href="${todo.url}" class="url" title="${todo.url}" target="_blank">URL</a>`;
+            } 
             li.innerHTML = `
                 <p class="date-title">
                     <span class="date">${todo.date}</span>
                     <span class="title">${todo.title}</span>
                 </p>
                 <p class="functions">
-                    <a href="${todo.url}" class="url" title="${todo.url}" target="_blank">url</a>
+                    ${urlStr}
                 </p>
                 <div class="deploy"><pre>${todo.detail}</pre></div>
             `;

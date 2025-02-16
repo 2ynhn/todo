@@ -21,7 +21,7 @@ a {text-decoration:none;}
 .tabs .tab {font-size:16px;}
 .tabs .tab.active {font-weight: 700;}
 
-.content {}
+.content {margin-top: 24px;}
 .js-toDoForm {position:sticky; top:40px; display: flex; align-items:stretch; padding:6px; z-index:1;}
 .js-toDoForm .fields {flex:1}
 .js-toDoForm .submit {flex:0 0 100px; margin-left:12px;}
@@ -35,15 +35,25 @@ a {text-decoration:none;}
 #Ytitle {flex:1;}
 #Ysubmit {width:100%; height:100%; font-size:16px; font-weight:bold;} 
 
-.li {position:relative; padding:4px 8px; width: 100%; display: flex; gap: 12px; justify-content: space-between; align-items: center;}
-.li .date-title {display: flex; gap: 12px; flex:1; }
-.li .functions {white-space: nowrap; flex-shrink: 0;}
-.li .date {flex:0 0 80px;}
-.li .title {flex:1;}
-.li .deploy {display: none;  margin-left:5px; vertical-align:top;}
+.li {position:relative; padding:4px 8px; width: 100%; display: flex; gap: 12px; justify-content: space-between; align-items: center; line-height:24px;}
+.li .date-title {display: flex; gap: 12px; flex:1; align-items:center;}
+.li .functions {white-space: nowrap; flex-shrink: 0; font-size: .8rem;}
+.li .functions button {font-size: 0.8rem;}
+.li .date {flex:0 0 80px; font-size: 0.8rem;}
+.li .title {flex:1; font-size: .9rem;}
+.li .deploy {display: none;}
 .li .title {margin:0;} 
 .li .fn-btn {position:absolute; top:6px; right:40px; transform:translateX(100%); text-align:right; opacity:0; transition:opacity .2s;} 
 .li:hover .fn-btn {opacity:1;} 
+
+.ul:has(.li.edit) .li {opacity: .5;}
+#todo-list .li.edit {gap: 8px; padding:4px 4px; z-index: 1; opacity: 1;}
+.li.edit .date-title {position: relative;}
+.li.edit .edit-url {position: absolute; top: 28px; left:0; right: 0;}
+.li.edit .edit-detail {position: absolute; top: 56px; left:0; right:0;}
+.li.edit .edit-date {flex-shrink: 0; width: 96px;}
+.li.edit .edit-title {flex:1}
+
 .li .fn-update {position:absolute; top:0; left:-16px; opacity:0;}
 .li .fn-update button {font-size:10px; display:inline-block; width:16px; height:16px; padding:1px 2px; text-align:center; }
 .li:hover .fn-update {opacity:1;}
@@ -53,7 +63,7 @@ a {text-decoration:none;}
 .work-list.on-edit .deploy-file {display:none;} 
 .li .delete, 
 .li .edit, 
-.li .submit {display:inline-block; vertical-align:top;} 
+.li .submit {} 
 .li .delete {position:relative; top:3px; font-size:10px; padding:1px 2px;} 
 .li .edit {} 
 .li .submit {position:absolute; top:4px; right:0; text-align:right;} 

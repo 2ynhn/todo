@@ -7,6 +7,7 @@ a {color:var(--color);}
 ul, div, li, p, span, em, strong {font-size:1rem;}
 button {color:var(--color);}
 
+.head {background-color: var(--background);}
 .head .logo {font-size:1px; text-indent:-999px; overflow:hidden; width:26px; height:26px; filter: invert(100%); background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAoklEQVR4nO2WSwrCQBAFa+XBdOPNjHfMKho9xpOGEUSm2+nExYgpeJBFeJUmv4YcB+BaYsdf5QhcADmZyjmrmQKJXmQpdsAZuFXKPPSWGRhKl8sQXHWrSCXW5VKbZGnukag2gT1dY1A4AvsPHU2iLNpET1pv/u+Isqh7kZJfC3UvyqLuRdreI/5SNC/8m6oSW8lcop0hm1Mkss3FZGsmq25BD3W2Gy82UuTOAAAAAElFTkSuQmCC'); background-position: center; background-size: 100%; background-repeat: no-repeat;}
 .head .how {} 
 #keywords {} 
@@ -27,7 +28,7 @@ button {color:var(--color);}
 
 .li {}
 .li + .li {border-top:1px solid rgba(255, 255, 255, .12);}
-.li .deploy {display: none;  margin-left:5px; vertical-align:top; background-color:#333; color:#ccc;}
+.li .deploy {display: none; vertical-align:top; background-color:#333; color:#ccc;}
 .li button {border:0; border-radius:2px;}
 .li.current {background-color:#444;}
 .li .fn-btn {}

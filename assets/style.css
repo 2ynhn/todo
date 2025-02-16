@@ -1,5 +1,5 @@
 html {margin:0;}
-body {margin:0; font-size:16px; font-family:'맑은 고딕', 'malgun gothic', sans-serif;} 
+body {margin:0; overflow: hidden; font-size:16px; font-family:'맑은 고딕', 'malgun gothic', sans-serif;} 
 ul {margin:0; padding-inline-start:0} 
 li {list-style:none;} 
 ul, div, li, p, span, em, strong, h1, h2, pre {margin:0; box-sizing:border-box;}
@@ -12,27 +12,35 @@ a {text-decoration:none;}
 .head .logo {font-size:16px;}
 .head .how {position:absolute; display: none;} 
 
+.toggle-side {width:32px; height:32px; text-indent: -999px; font-size:1px; overflow: hidden; border-radius: 8px 0 0 8px; cursor: pointer; background-color:#666; mask: url(./images/sidebar.svg); mask-size: 100%;}
+.head .toggle-side {margin-left:auto;}
+
 .tabs {}
 .tabs .tab {font-size:16px;}
 .tabs .tab.active {font-weight: 700;}
 
-.side {padding: 0 20px;}
+.side {position: absolute; right: 0; width: 340px; padding: 3.6rem 20px; top: 0; bottom: 0; z-index: 10;}
 .side #file-input {display: none;}
-.side button {position: relative; width: 100%; text-align:center;}
-.side button + button {margin-top:8px;}
+.side .btn-file {position: relative; width: 100%; text-align:center;}
+.side .btn-file + .btn-file {margin-top:8px;}
 #save-check {position: absolute; right:4px; top:50%; margin-top:-9px; opacity: 0; width: 18px; height: 18px; background: url(./images/check.png) no-repeat center; background-size: 100%;}
-#save-check.motion {animation: check .8s ease-in-out forwards;}
+#save-check.motion {animation: check 2s ease-in-out forwards;}
 @keyframes check {
     0% {opacity: 0; transform: scaleX(0);}
-    40% {opacity: 1; transform: scaleX(1);}
-    40% {opacity: 1; transform: scaleX(1);}
-    80% {opacity: 0; transform: scaleX(1);}
+    20% {opacity: 1; transform: scaleX(1);}
+    30% {opacity: 1; transform: scaleX(1);}
+    50% {opacity: 0; transform: scaleX(1);}
 }
-@media (max-width:700px) {
+.side .toggle-side {position: absolute; top:1rem; left:20px; }
+@media (max-width:980px) {
+    .side {transition: transform .6s ease-in-out; transform:translateX(100%); background-color: var(--background);}
+    .side.expand {transform: translateX(0);}
 }
-@media (min-width:701px) {
+@media (min-width:981px) {
     .code-works {margin-right: 340px;}
-    .side {position: absolute; right: 0; top:3.6rem; width: 340px; z-index: 10;}
+    .side {}
+    .side .toggle-side,
+    .head .toggle-side {display:none;}
 }
 .find-string {margin-top: 24px;}
 .find-string input {}
@@ -68,8 +76,8 @@ a {text-decoration:none;}
 .li .fn-btn {position:absolute; top:6px; right:40px; transform:translateX(100%); text-align:right; opacity:0; transition:opacity .2s;} 
 .li:hover .fn-btn {opacity:1;} 
 
-.ul:has(.li.edit) .li {opacity: .5;}
-#todo-list .li.edit {gap: 8px; padding:4px 4px; z-index: 1; opacity: 1;}
+.ul:has(.li.edit) .li {opacity: .5; pointer-events: none;}
+#todo-list .li.edit {gap: 8px; padding:4px 8px 4px 4px; z-index: 1; opacity: 1; pointer-events: all;}
 .li.edit .date-title {position: relative;}
 .li.edit .edit-url {position: absolute; top: 28px; left:0; right: 0;}
 .li.edit .edit-detail {position: absolute; top: 56px; left:0; right:0;}

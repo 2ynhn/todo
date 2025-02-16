@@ -3,6 +3,9 @@
       "version": "1.0"
     },
     "theme" : "dark",
+    "plugins" : [
+      "ui.js"
+    ],
     "users": [
       {
         "id": "2yunhan",

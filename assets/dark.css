@@ -1,5 +1,6 @@
 :root{
     --background: #292a2d;
+    --background-2: #202124;
     --color: #f8faff;
     --point-1 : #4f647b;
     --line: rgba(255,255,255,.2);
@@ -21,8 +22,9 @@ button {color:var(--color);}
 .tabs .tab {opacity:.8;}
 .tabs .tab.active {opacity: 1;}
 
-.side {}
-.side button {padding: 8px 12px; border:1px solid var(--line); border-radius: var(--button-radius);}
+.side {background-color: var(--background-2);}
+.side .btn-file {padding: 8px 12px; border:1px solid var(--line); border-radius: var(--button-radius);}
+.toggle-side {background-color: var(--point-1);}
 
 .js-toDoForm {background-color:#111; border-radius:6px;}
 .js-toDoForm input, 
@@ -35,9 +37,18 @@ button {color:var(--color);}
 .li {}
 .li + .li {border-top:1px solid rgba(255, 255, 255, .12);}
 .li .deploy {display: none; vertical-align:top; background-color:#333; color:#ccc;}
-.li button {border:0; border-radius:2px;}
+.li button {border:0; border-radius:var(--button-radius);}
 .li.current {background-color:#444;}
 .li .fn-btn {}
+.li .edit-button,
+.li .delete-button,
+.li .save-button,
+.li .cancel-button {cursor: pointer; text-indent: -999px; overflow: hidden; width:20px; height:20px; background-color: var(--color);}
+.li .edit-button {mask: url(./images/edit.png); mask-size:100%;}
+.li .delete-button {mask: url(./images/trash.svg); mask-size:100%;}
+.li .save-button {mask: url(./images/save.png); mask-size:100%;}
+.li .cancel-button {mask: url(./images/cancel.png); mask-size:100%;}
+
 .li.list-checked {background-color:#363427;}
 .li.ended.list-checked {background-color:#000;}
 .li .project {color:#fff;} 

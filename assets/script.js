@@ -38,6 +38,15 @@ await fetch('./config.json')
             link.rel = "stylesheet";
             link.href = `./assets/${config.theme}.css`; // 테마에 맞는 CSS 파일 로드
             document.head.appendChild(link);
+
+            // plugin 을 추가
+            const plugins = config.plugins;
+            plugins.forEach(plugin => {
+                const script = document.createElement('script');
+                script.src = `./assets/${plugin}`;
+                script.defer = true;
+                document.head.appendChild(script);
+            });
         }
     })
 })();
@@ -99,13 +108,19 @@ function renderTodos(todos) {
     todos.forEach((todo, index) => {
         const li = document.createElement('li');
         let urlStr = ``;
+        let endStr = ``;
         li.dataset.index = index;   // 데이터셋에 index 저장 (수정 시 활용)
         li.classList.add('li');
         li.setAttribute('id', todo.id);
         if(masterId === activeUser){   // master 유저 인 경우
             if(todo.url !== 'undefined' && todo.url){
                 urlStr = `<a href="${todo.url}" class="url" title="${todo.url}" target="_blank">URL</a>`;
-            }            
+            }
+            if(todo.ended !== true){
+                endStr = `<button class="end-button" data-id="${todo.id}">Finish</button>`;
+            } else {
+                li.classList.add('ended');
+            }
             li.innerHTML = `
                 <p class="date-title">
                     <span class="date">${todo.date}</span>
@@ -113,6 +128,7 @@ function renderTodos(todos) {
                 </p>
                 <p class="functions">
                     ${urlStr}
+                    ${endStr}
                     <button class="edit-button" data-id="${todo.id}">Edit</button>
                     <button class="delete-button" data-id="${todo.id}">Delete</button>
                 </p>
@@ -152,7 +168,6 @@ function renderTodos(todos) {
                         ended: editEnded,
                         url: editUrl
                     };
-                    checkMotion();
                     saveTodos(todos); // 서버에 저장
                     renderTodos(todos); // 화면 다시 렌더링
                 });
@@ -162,14 +177,17 @@ function renderTodos(todos) {
                 cancelButton.addEventListener('click', () => {
                     renderTodos(todos); // 원래 상태로 되돌리기
                 });
-            });
 
-            // Delete 버튼 클릭 이벤트
-            const deleteButton = li.querySelector('.delete-button');
-            deleteButton.addEventListener('click', () => {
-                todos.splice(index, 1); // todos 삭제
-                saveTodos(todos); // 서버에 저장
-                renderTodos(todos); // 화면 다시 렌더링
+                // Delete 버튼 클릭 이벤트
+                const deleteButton = li.querySelector('.delete-button');
+                deleteButton.addEventListener('click', () => {
+                    var result = confirm("Want to delete?");
+                    if (result) {
+                        todos.splice(index, 1); // todos 삭제
+                        saveTodos(todos); // 서버에 저장
+                        renderTodos(todos); // 화면 다시 렌더링
+                    }
+                });
             });
         } else {    // member 유저 인 경우 view만 제공공
             if(todo.url !== 'undefined' && todo.url){
@@ -189,6 +207,8 @@ function renderTodos(todos) {
         
         todoList.appendChild(li);
     });
+
+    document.getElementById('Ydate').valueAsDate = new Date();
 }
 function saveTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
@@ -215,17 +235,40 @@ addButton.addEventListener('click', () => {
     renderTodos(todos);
     todoTitle.value = '';
     todoDetail.value = '';
-    todoDate.value = '';
     todoUrl.value = '';
 });
+
 todoList.addEventListener('click', (event) => {
     if (event.target.classList.contains('delete-button')) {
-        const id = event.target.dataset.id;
-        todos = todos.filter(todo => todo.id !== id);
-        saveTodos();
-        renderTodos(todos);
+        var result = confirm("Want to delete?");
+        if (result) {
+            const id = event.target.dataset.id;
+            todos = todos.filter(todo => todo.id !== id);
+            saveTodos();
+            renderTodos(todos);
+        }
     }
 });
+todoList.addEventListener('click', (event) => {
+    if (event.target.classList.contains('end-button')) {
+        var result = confirm("Want to Finish?");
+        if (result) {
+            const id = event.target.dataset.id;
+            const todo = todos.find(todo => todo.id === id);
+            console.log(id)
+            if (todo) {
+                console.log(todo.ended)
+                todo.ended = true;
+                console.log(`ID: ${id} 완료 처리됨`, todo);
+            }
+            saveTodos();
+            renderTodos(todos);
+        }
+    }
+});
+
+
+
 loadButton.addEventListener('click', () => {
     fileInput.click();
 });
@@ -261,8 +304,6 @@ saveButton.addEventListener('click', () => {
 });
 
 // UI 
-document.getElementById('Ydate').valueAsDate = new Date();
-
 function checkMotion(){
     const check = document.getElementById('save-check');
     check.classList.remove('motion');

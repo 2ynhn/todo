@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 const port = 3000;
-const config = JSON.parse(fs.readFileSync('./assets/config.json', 'utf8'));
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 const users = config.users;
 app.use(express.json());
 app.use(express.static(__dirname));

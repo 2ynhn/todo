@@ -25,7 +25,7 @@ await fetch('/masterUserId')
         }
     });
 
-await fetch('./assets/config.json')
+await fetch('./config.json')
     .then(response => response.json())
     .then(config => {
         if (config && config.users && Array.isArray(config.users)) {
@@ -152,7 +152,7 @@ function renderTodos(todos) {
                         ended: editEnded,
                         url: editUrl
                     };
-
+                    checkMotion();
                     saveTodos(todos); // 서버에 저장
                     renderTodos(todos); // 화면 다시 렌더링
                 });
@@ -203,6 +203,13 @@ addButton.addEventListener('click', () => {
         url: todoUrl.value,
         ended: false, // 완료 여부 (기본값: false)
     };
+    if(!newTodo.title) {
+        alert('제목을 입력해 주세요');
+        return;
+    }
+    if(!newTodo.date) {
+        alert('날짜가 없습니다. 리스트 맨 하단에 추가됩니다.');
+    }
     todos.push(newTodo);
     saveTodos();
     renderTodos(todos);
@@ -249,8 +256,16 @@ saveButton.addEventListener('click', () => {
     .then(response => response.json())
     .then(data => {
         console.log('Todos saved:', data);
+        checkMotion();
     });
 });
 
 // UI 
 document.getElementById('Ydate').valueAsDate = new Date();
+
+function checkMotion(){
+    const check = document.getElementById('save-check');
+    check.classList.remove('motion');
+    void check.offsetWidth;
+    check.classList.add('motion');
+}

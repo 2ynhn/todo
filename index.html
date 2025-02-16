@@ -14,14 +14,6 @@
 		<div class="head">
 			<h1 class="logo">Todo List</h1>
 			<div class="tabs"></div>
-			<div class="how">
-				<button id="save-button">저장</button>
-				<button id="load-button">로드</button> <input type="file" id="file-input" accept=".json">
-			</div>
-			<div class="find-string">
-				<input type="text" id="find_file_string" placeholder="내용 검색"> <button id="find_string">Find</button>
-			</div>
-			<div id="keywords"></div>
 		</div>
 
 		<form class="js-toDoForm">
@@ -43,7 +35,6 @@
 		</form>
 
 		<div class="content">
-
 			<div class="work-list">
 				<ul class="ul" id="todo-list">
 					<!-- {} -->
@@ -51,6 +42,18 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="side">
+		<div class="how">
+			<button id="save-button">Save as JSON file<i id="save-check"></i></button>
+			<button id="load-button">Load JSON file</button> <input type="file" id="file-input" accept=".json">
+		</div>
+		<div class="find-string">
+			<input type="text" id="find_file_string" placeholder="내용 검색"> <button id="find_string">Find</button>
+		</div>
+		<div id="keywords"></div>
+	</div>
+
 	<script src="./assets/script.js"></script>
 </body>
 

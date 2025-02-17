@@ -2,7 +2,7 @@
     "system_settings": {
       "version": "1.0"
     },
-    "theme" : "",
+    "theme" : "dark",
     "plugins" : [
       "ui.js"
     ],

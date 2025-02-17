@@ -1,10 +1,11 @@
-:root{
+:root{    
     --background: #eaeef8;
     --background-2: #c5ccdd;
+    --background-3: #fff;
     --color: #333333;
     --color-2: #1d1d1d;
-    --point-1 : #4f647b;
-    --point-2 : #4d6bfe;
+    --point-1 : #575f7a;
+    --point-2 : #425ebb;
     --line: rgba(0,0,0,.12);
     --button-radius: 8px;
 }
@@ -82,11 +83,11 @@ a {text-decoration:none; color:var(--color);}
 
 .li {position:relative; padding:4px 8px; width: 100%; display: flex; gap: 12px; justify-content: space-between; align-items: center; line-height:24px;}
 .li + .li {border-top:1px solid var(--line);}
-.li .date-title {display: flex; gap: 12px; flex:1; align-items:center;}
+.li .date-title {display: flex; gap: 8px; flex:1; align-items:center;}
 .li .functions {white-space: nowrap; flex-shrink: 0; font-size: .8rem;}
 .li .functions button {font-size: 0.8rem;}
 .li .date {flex:0 0 80px; font-size: 0.8rem;}
-.li .title {flex:1; font-size: .9rem;}
+.li .title {font-size: .9rem;}
 .li .deploy {display: none;}
 .li .title {margin:0;} 
 .li .fn-btn {position:absolute; top:6px; right:40px; transform:translateX(100%); text-align:right; opacity:0; transition:opacity .2s;} 
@@ -94,6 +95,7 @@ a {text-decoration:none; color:var(--color);}
 
 .ul:has(.li.edit) .li {opacity: .5; pointer-events: none;}
 #todo-list .li.edit {gap: 8px; padding:4px 8px 4px 4px; z-index: 1; opacity: 1; pointer-events: all;}
+#todo-list .li.edit input, #todo-list .li.edit textarea {border-radius:4px;}
 .li.edit .date-title {position: relative;}
 .li.edit .edit-url {position: absolute; top: 28px; left:0; right: 0;}
 .li.edit .edit-detail {position: absolute; top: 56px; left:0; right:0;}
@@ -102,8 +104,8 @@ a {text-decoration:none; color:var(--color);}
 
 .li.list-checked {background-color:var(--background-2);}
 
-.li .fn-update {position:absolute; top:0; left:-16px; opacity:0;}
-.li .fn-update button {font-size:1px; display:inline-block; overflow: hidden; text-indent: -999px; width:16px; height:16px; background-color: #666; mask: url(./images/next-day.png); mask-size: 100%; cursor: pointer;}
+.li .fn-update {position:absolute; top:-2px; left:-14px; opacity:0;}
+.li .fn-update button {font-size:1px; display:inline-block; overflow: hidden; text-indent: -999px; width:16px; height:16px; background-color:var(--point-1); mask: url(./images/next-day.png); mask-size: 100%; cursor: pointer;}
 .li:hover .fn-update {opacity:1;}
 .work-list {position:relative;}
 .ul {}
@@ -133,6 +135,7 @@ li .deploy-edit {position:absolute; padding:15px 10px; top:30px; left:0; min-hei
 .li .end-button,
 .li .save-button,
 .li .url,
+.li .deploy-file,
 .li .cancel-button {cursor: pointer; text-indent: -999px; overflow: hidden; width:20px; height:20px; background-color: var(--color);}
 .li .edit-button {mask: url(./images/edit.png); mask-size:100%;}
 .li .delete-button {mask: url(./images/trash.png); mask-size:100%;}
@@ -140,6 +143,8 @@ li .deploy-edit {position:absolute; padding:15px 10px; top:30px; left:0; min-hei
 .li .cancel-button {mask: url(./images/cancel.png); mask-size:100%;}
 .li .end-button {mask: url(./images/check-end.png); mask-size:70%; mask-repeat: no-repeat; mask-position: center;}
 .li .url {display:inline-block; vertical-align: middle; mask: url(./images/link.png); mask-size:100%;}
+.li .deploy-file {mask: url(./images/detail.png); mask-size:100%;}
+.li .url + .edit-button {margin-left: 24px;}
 
 li[class*="day-in"] 
 li.day-in0 .date {font-weight:bold; opacity:1;} /* today */
@@ -154,12 +159,13 @@ li.day-in3 .date {color:currentColor} /* 3day next */
 li.ended .title {color:#666;}
 li.ended .date {color:#999}
 li.ended .project {color:#888;}
+li.current {background-color: var(--background-2);}
 
 .deploy {font-size:0; display:none;} 
 .deploy pre {font-size:14px;  padding:10px;} 
-.layer {width:600px; height:auto; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);} 
-.layer .cont {padding:20px 14px;} 
-.layer .cont textarea {padding:10px 14px;}
+.layer {position: fixed; top: 0;left: 0;right: 0;bottom: 0; background-color: var(--line); z-index: 11;} 
+.layer .cont {position:fixed; width:600px; height:auto; top:50%; left:50%; transform:translate(-50%, -50%); padding:20px 14px; background-color: var(--background-3); border-radius: var(--button-radius);} 
+.layer .cont textarea {padding:10px 14px; width: calc(100% - 28px); background-color: var(--background); border-radius: var(--button-radius);}
 
 
 #keywords {margin-top: 24px; padding:12px; border:1px solid var(--line); border-radius:var(--button-radius);} 

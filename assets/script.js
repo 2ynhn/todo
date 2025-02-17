@@ -104,6 +104,15 @@ function renderTodos(todos) {
         li.dataset.index = index;   // 데이터셋에 index 저장 (수정 시 활용)
         li.classList.add('li');
         li.setAttribute('id', todo.id);
+
+        // deploy 파일 여부 확인
+        var deployFiles;
+        if(todo.detail || todo.deploy){
+            deployFiles = '<button onclick="deployView(this);" class="deploy-file">Detail</button>';
+        } else {
+            deployFiles = '';
+        }
+
         if(masterId === activeUser){   // master 유저 인 경우
             if(todo.url !== 'undefined' && todo.url){
                 urlStr = `<a href="${todo.url}" class="url" title="${todo.url}" target="_blank">URL</a>`;
@@ -113,13 +122,15 @@ function renderTodos(todos) {
             } else {
                 li.classList.add('ended');
             }
+            
             li.innerHTML = `
                 <p class="date-title">
                     <span class="date">${todo.date}</span>
                     <span class="title">${todo.title}</span>
+                    ${deployFiles}
+                    ${urlStr}
                 </p>
                 <p class="functions">
-                    ${urlStr}
                     ${endStr}
                     <button class="edit-button" data-id="${todo.id}">Edit</button>
                     <button class="delete-button" data-id="${todo.id}">Delete</button>
@@ -143,52 +154,7 @@ function renderTodos(todos) {
                         <button class="cancel-button" onclick="editCancel()">Cancel</button>
                     </p>
                 `;
-                // Save 버튼 클릭 이벤트
-                /*
-                const editSaveButton = li.querySelector('.save-button');
-                editSaveButton.addEventListener('click', () => {
-                    const editID = li.getAttribute('id');
-                    const editDate = li.querySelector('.edit-date').value;
-                    const editTitle = li.querySelector('.edit-title').value;
-                    const editDetail = li.querySelector('.edit-detail').value;
-                    const editEnded = li.querySelector('.edit-ended').checked;
-                    const editUrl = li.querySelector('.edit-url').value;
-
-                    todos[index] = { // todos 업데이트
-                        id: editID,
-                        date: editDate,
-                        title: editTitle,
-                        detail: editDetail,
-                        ended: editEnded,
-                        url: editUrl
-                    };
-                    saveTodos(); // 서버에 저장
-                    renderTodos(todos); // 화면 다시 렌더링
-                });
-                
-
-                // Cancel 버튼 클릭 이벤트
-                const cancelButton = li.querySelector('.cancel-button');
-                cancelButton.addEventListener('click', () => {
-                    saveTodos(); // 서버에 저장
-                    renderTodos(todos); // 원래 상태로 되돌리기
-                });
-                */
             });
-
-            // Delete 버튼 클릭 이벤트
-            /*
-            const deleteButton = li.querySelector('.delete-button');
-            deleteButton.addEventListener('click', () => {
-                var result = confirm("Want to delete?");
-                if (result) {
-                    todos.splice(index, 1); // todos 삭제
-                    saveTodos(); // 서버에 저장
-                    renderTodos(todos); // 화면 다시 렌더링
-                }
-            });
-            */
-            
         } else {    // member 유저 인 경우 view만 제공공
             if(todo.url !== 'undefined' && todo.url){
                 urlStr = `<a href="${todo.url}" class="url" title="${todo.url}" target="_blank">URL</a>`;
@@ -197,9 +163,10 @@ function renderTodos(todos) {
                 <p class="date-title">
                     <span class="date">${todo.date}</span>
                     <span class="title">${todo.title}</span>
+                    ${deployFiles}
+                    ${urlStr}
                 </p>
                 <p class="functions">
-                    ${urlStr}
                 </p>
                 <div class="deploy"><pre>${todo.detail}</pre></div>
             `;

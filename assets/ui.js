@@ -141,7 +141,55 @@ function keywordInit(){
     });
 }
 
+// view Detail
+function deployView(obj){
+	const li = obj.parentNode.parentNode;
+	var thisID = li.getAttribute('id');
+	var cont;
+	todos.map(function(a){
+		if(a.id == thisID) {
+			a.deploy ? cont = a.deploy : cont = a.detail
+		}
+	});
+	displayCurrent(thisID);
+	toLayer(cont);
+}
 
+function displayCurrent(id){
+    const lists = document.querySelectorAll('.li');
+    lists.forEach((li) => {
+        li.classList.remove('current');
+    });
+	document.querySelector('#'+id).classList.add('current');
+}
+
+function toLayer(cont){
+	const content = cont.replace(/\n/g, '<br>');
+	const layer = `
+		<div class="layer">
+			<div class="cont"><textarea>${content}</textarea></div>
+		</div>
+	`;
+    document.documentElement.insertAdjacentHTML("beforeend", layer);
+    const layerCont = document.querySelector('.layer .cont');
+    layerCont.addEventListener('click', function(e){
+        e.preventDefault();
+    });
+}
+function layerRemove(){
+    const layer = document.querySelector('.layer');
+	layer.remove();
+    const lists = document.querySelectorAll('.li');
+    lists.forEach((li) => {
+        li.classList.remove('current');
+    });
+	// setTimeout(function(){$('.li').removeClass('current');}, 5000);
+}
+document.documentElement.addEventListener('click', function(e){
+    if(e.target.classList.contains('layer') ) {
+        layerRemove();
+    } 
+});
 
 // // copy string lists
 // $('.copy-lists .copy-string').bind('click', function(){

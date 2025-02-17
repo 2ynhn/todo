@@ -1,15 +1,17 @@
 :root{
     --background: #292a2d;
-    --background-2: #202124;
+    --background-2: #1a1b1d;
     --color: #f8faff;
     --color-2: #adb0b8;
     --point-1 : #4f647b;
-    --point-2 : #4d6bfe;
+    --point-2 : #1e6fc5;
     --line: rgba(255,255,255,.2);
+    --dimm: rgba(109, 116, 151, 0.2);
     --button-radius: 8px;
 }
 .head .logo {background-color:var(--color-2);}
 .js-toDoForm {background-color: var(--line);}
+.js-toDoForm input:focus, .js-toDoForm textarea:focus {background-color:var(--color);} 
 #Ysubmit {background-color: var(--color); color: var(--background-2);}
 .li .deploy {display: none; vertical-align:top; background-color:#333; color:#ccc;}
 .li button {border:0; border-radius:var(--button-radius);}
@@ -21,7 +23,10 @@ li .deploy-edit {border:0; border-radius:4px;}
 .li .delete-button {mask:url(./images/trash.svg); mask-size:100%; }
 .li .cancel-button {mask: url(./images/cancel-dark.png); mask-size:100%;}
 .li .end-button {mask: url(./images/check-end.png); mask-size:70%; mask-repeat: no-repeat; mask-position: center;}
+.li .deploy-file {mask: url(./images/detail-dark.png); mask-size:100%;}
 
 .deploy pre {border-radius:6px; border:1px solid #454545; background-color:#2a2a2a;}
 
-.layer {background-color:#fff; border-radius:12px;} 
+.layer {background-color: var(--dimm);} 
+.layer .cont {background-color: var(--background-2);}
+.layer .cont textarea  {color: var(--color-2);}

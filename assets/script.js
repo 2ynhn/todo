@@ -215,6 +215,10 @@ function renderTodos(todos) {
             if (config && config.plugins && Array.isArray(config.plugins)) {
                 const plugins = config.plugins;
                 plugins.forEach(plugin => {
+                    const oldScript = document.querySelector(`script[src="./assets/${plugin}"]`);
+                    if (oldScript) {
+                        oldScript.remove(); // 기존 script 삭제
+                    }
                     const script = document.createElement('script');
                     script.src = `./assets/${plugin}`;
                     document.head.appendChild(script);

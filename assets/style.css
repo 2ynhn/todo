@@ -85,7 +85,7 @@ a {text-decoration:none;}
 .li.edit .edit-title {flex:1}
 
 .li .fn-update {position:absolute; top:0; left:-16px; opacity:0;}
-.li .fn-update button {font-size:10px; display:inline-block; width:16px; height:16px; padding:1px 2px; text-align:center; }
+.li .fn-update button {font-size:1px; display:inline-block; overflow: hidden; text-indent: -999px; width:16px; height:16px; background-color: #666; mask: url(./images/next-day.png); mask-size: 100%;;}
 .li:hover .fn-update {opacity:1;}
 .work-list {position:relative;}
 .ul {}

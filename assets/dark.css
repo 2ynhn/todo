@@ -3,6 +3,7 @@
     --background-2: #202124;
     --color: #f8faff;
     --point-1 : #4f647b;
+    --point-2 : #4d6bfe;
     --line: rgba(255,255,255,.2);
     --button-radius: 8px;
 }
@@ -60,13 +61,13 @@ li .deploy-edit {border:0; border-radius:4px;}
 li span.date {color:#bababa;}
 
 .date {color:orange;}
-li.day-in0 .date {color:red;} /* today */
-li.day-in-3 .date {color:orange} /* -3day ago */
-li.day-in-2 .date {color:orange} /* -2day ago */
-li.day-in-1 .date {color:orange} /* -1day ago */
-li.day-in1 .date {color:yellow} /* 1day next */
-li.day-in2 .date {color:yellow} /* 2day next */
-li.day-in3 .date {color:yellow} /* 3day next */ 
+li.day-in0 .date {color:var(--point-2); font-weight: 700;} /* today */
+li.day-in-3 .date, /* -3day ago */
+li.day-in-2 .date, /* -2day ago */
+li.day-in-1 .date {color:currentColor} /* -1day ago */
+li.day-in1 .date, /* 1day next */
+li.day-in2 .date, /* 2day next */
+li.day-in3 .date {color:currentColor} /* 3day next */ 
 li.ended .title {color:#666;}
 li.ended .date {color:#999}
 li.ended .project {color:#888;}

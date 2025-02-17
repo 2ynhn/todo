@@ -18,8 +18,7 @@ await fetch('/masterUserId')
     .then(data => {
         if (data.masterId) {
             masterId = data.masterId;
-            console.log('Master ID:', masterId);
-            loadTodoData(masterId);
+            console.log('Master ID:', masterId);            
         } else {
             renderTodos(todos);
         }
@@ -38,15 +37,6 @@ await fetch('./config.json')
             link.rel = "stylesheet";
             link.href = `./assets/${config.theme}.css`; // 테마에 맞는 CSS 파일 로드
             document.head.appendChild(link);
-
-            // plugin 을 추가
-            const plugins = config.plugins;
-            plugins.forEach(plugin => {
-                const script = document.createElement('script');
-                script.src = `./assets/${plugin}`;
-                script.defer = true;
-                document.head.appendChild(script);
-            });
         }
     })
 })();
@@ -54,27 +44,27 @@ await fetch('./config.json')
 async function usersInit(users) {
     const tabs = document.querySelector('.tabs');
     users.forEach(user => {
-      if (user.active) {
-        const tab = document.createElement('button');
-        tab.classList.add('tab');
-        tab.dataset.userId = user.id;
-        tab.textContent = user.name;
-        tabs.appendChild(tab);    
-        tab.addEventListener('click', () => {
-          const userId = tab.dataset.userId;
-          loadTodoData(userId);
-        });
-        if (user.id == masterId) {
-            tab.classList.add('active');
+        if (user.active) {
+            const tab = document.createElement('button');
+            tab.classList.add('tab');
+            tab.dataset.userId = user.id;
+            tab.textContent = user.name;
+            tabs.appendChild(tab);    
+            tab.addEventListener('click', () => {
+                const userId = tab.dataset.userId;
+                loadTodoData(userId);
+            });
+            if (user.id == masterId) {
+                tab.classList.add('active');
+                tab.click();
+            }
         }
-      }
     });
 }
 
 async function currentTabInit(userId) {
     const tabButtons = document.querySelectorAll('.tab');
     tabButtons.forEach(t => {
-        console.log(userId, tabButtons)
         t.classList.remove('active');
         if (t.dataset.userId == userId) {
             t.classList.add('active');
@@ -134,6 +124,7 @@ function renderTodos(todos) {
                 </p>
                 <div class="deploy"><pre>${todo.detail}</pre></div>
             `;
+            
             const editButton = li.querySelector('.edit-button');
             editButton.addEventListener('click', () => {
                 li.classList.add('edit');
@@ -146,13 +137,14 @@ function renderTodos(todos) {
                     </p>
                     <p class="functions">
                         <input type="checkbox" class="edit-ended" ${todo.ended ? 'checked' : ''}>
-                        <button class="save-button">Save</button>
-                        <button class="cancel-button">Cancel</button>
+                        <button class="save-button" onclick="editSave()">Save</button>
+                        <button class="cancel-button" onclick="editCancel()">Cancel</button>
                     </p>
                 `;
                 // Save 버튼 클릭 이벤트
-                const saveButton = li.querySelector('.save-button');
-                saveButton.addEventListener('click', () => {
+                /*
+                const editSaveButton = li.querySelector('.save-button');
+                editSaveButton.addEventListener('click', () => {
                     const editID = li.getAttribute('id');
                     const editDate = li.querySelector('.edit-date').value;
                     const editTitle = li.querySelector('.edit-title').value;
@@ -168,27 +160,33 @@ function renderTodos(todos) {
                         ended: editEnded,
                         url: editUrl
                     };
-                    saveTodos(todos); // 서버에 저장
+                    saveTodos(); // 서버에 저장
                     renderTodos(todos); // 화면 다시 렌더링
                 });
+                
 
                 // Cancel 버튼 클릭 이벤트
                 const cancelButton = li.querySelector('.cancel-button');
                 cancelButton.addEventListener('click', () => {
+                    saveTodos(); // 서버에 저장
                     renderTodos(todos); // 원래 상태로 되돌리기
                 });
-
-                // Delete 버튼 클릭 이벤트
-                const deleteButton = li.querySelector('.delete-button');
-                deleteButton.addEventListener('click', () => {
-                    var result = confirm("Want to delete?");
-                    if (result) {
-                        todos.splice(index, 1); // todos 삭제
-                        saveTodos(todos); // 서버에 저장
-                        renderTodos(todos); // 화면 다시 렌더링
-                    }
-                });
+                */
             });
+
+            // Delete 버튼 클릭 이벤트
+            /*
+            const deleteButton = li.querySelector('.delete-button');
+            deleteButton.addEventListener('click', () => {
+                var result = confirm("Want to delete?");
+                if (result) {
+                    todos.splice(index, 1); // todos 삭제
+                    saveTodos(); // 서버에 저장
+                    renderTodos(todos); // 화면 다시 렌더링
+                }
+            });
+            */
+            
         } else {    // member 유저 인 경우 view만 제공공
             if(todo.url !== 'undefined' && todo.url){
                 urlStr = `<a href="${todo.url}" class="url" title="${todo.url}" target="_blank">URL</a>`;
@@ -209,7 +207,52 @@ function renderTodos(todos) {
     });
 
     document.getElementById('Ydate').valueAsDate = new Date();
+
+    // plugins init
+    fetch('./config.json')
+        .then(response => response.json())
+        .then(config => {
+            if (config && config.plugins && Array.isArray(config.plugins)) {
+                const plugins = config.plugins;
+                plugins.forEach(plugin => {
+                    const script = document.createElement('script');
+                    script.src = `./assets/${plugin}`;
+                    document.head.appendChild(script);
+                });
+            }
+        })
+
 }
+
+// Save 버튼 클릭 이벤트
+function editSave() {
+    const li = document.querySelector('.li.edit');
+    const index = li.dataset.index;
+    const editID = li.getAttribute('id');
+    const editDate = li.querySelector('.edit-date').value;
+    const editTitle = li.querySelector('.edit-title').value;
+    const editDetail = li.querySelector('.edit-detail').value;
+    const editEnded = li.querySelector('.edit-ended').checked;
+    const editUrl = li.querySelector('.edit-url').value;
+
+    todos[index] = { // todos 업데이트
+        id: editID,
+        date: editDate,
+        title: editTitle,
+        detail: editDetail,
+        ended: editEnded,
+        url: editUrl
+    };
+    saveTodos(); // 서버에 저장
+    renderTodos(todos); // 화면 다시 렌더링
+}; 
+
+function editCancel(){
+    saveTodos(); // 서버에 저장
+    renderTodos(todos); // 원래 상태로 되돌리기
+}
+
+
 function saveTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
     saveButton.click();

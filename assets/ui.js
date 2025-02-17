@@ -1,3 +1,19 @@
+(function(){
+    // 공통 함수수
+    toggleSide();
+    findDetail();
+    keywordInit();
+
+    // master, user 별 함수
+    if (masterId == activeUser) {
+    
+    } else {
+    
+    }
+})();
+
+
+
 function findDetail(){
     const dom = `
         <div class="find-string">
@@ -27,6 +43,3 @@ function toggleSide() {
 }
 
 
-findDetail();
-keywordInit();
-toggleSide();

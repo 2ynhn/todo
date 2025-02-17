@@ -16,7 +16,7 @@ a {text-decoration:none;}
 .head .toggle-side {margin-left:auto;}
 
 .tabs {}
-.tabs .tab {font-size:16px;}
+.tabs .tab {font-size:16px; cursor: pointer;}
 .tabs .tab.active {font-weight: 700;}
 
 .side {position: absolute; right: 0; width: 340px; padding: 3.6rem 20px; top: 0; bottom: 0; z-index: 10;}

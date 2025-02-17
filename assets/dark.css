@@ -5,7 +5,7 @@
     --color-2: #adb0b8;
     --point-1 : #4f647b;
     --point-2 : #1e6fc5;
-    --line: rgba(255,255,255,.2);
+    --line: rgba(255,255,255,.1);
     --dimm: rgba(109, 116, 151, 0.2);
     --button-radius: 8px;
 }

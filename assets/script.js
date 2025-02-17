@@ -8,6 +8,7 @@ const loadButton = document.getElementById('load-button');
 const fileInput = document.getElementById('file-input');
 const saveButton = document.getElementById('save-button');
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
+let tabTodos = [];
 
 // users by config.json
 let config, users, masterId, activeUser;
@@ -80,6 +81,7 @@ async function loadTodoData(userId) {
         const todoData = await response.json();
         activeUser = userId;    // activeUser = userId;
         renderTodos(todoData);
+        tabTodos = todoData;
         currentTabInit(userId);
     } catch (error) {
         console.error('Error loading todo data:', error);
@@ -93,7 +95,6 @@ function renderTodos(todos) {
     todoList.innerHTML = '';
     if (todos.length === 0) {
         todoList.innerHTML = '<p>No todo found.</p>';
-        return;
     }
     todos.sort((a, b) => new Date(b.date) - new Date(a.date));  //sort by date
 
@@ -104,10 +105,13 @@ function renderTodos(todos) {
         li.dataset.index = index;   // 데이터셋에 index 저장 (수정 시 활용)
         li.classList.add('li');
         li.setAttribute('id', todo.id);
+        if(todo.deploy) {
+            todo.detail = todo.deploy;
+        }
 
         // deploy 파일 여부 확인
         var deployFiles;
-        if(todo.detail || todo.deploy){
+        if(todo.detail){
             deployFiles = '<button onclick="deployView(this);" class="deploy-file">Detail</button>';
         } else {
             deployFiles = '';
@@ -158,7 +162,7 @@ function renderTodos(todos) {
         } else {    // member 유저 인 경우 view만 제공공
             if(todo.url !== 'undefined' && todo.url){
                 urlStr = `<a href="${todo.url}" class="url" title="${todo.url}" target="_blank">URL</a>`;
-            } 
+            }
             li.innerHTML = `
                 <p class="date-title">
                     <span class="date">${todo.date}</span>
@@ -325,4 +329,39 @@ function checkMotion(){
     check.classList.remove('motion');
     void check.offsetWidth;
     check.classList.add('motion');
+}
+
+const findDetail = document.getElementById('find_string');
+findDetail.addEventListener('click', function(){
+    var query = document.getElementById('find_file_string').value;
+    findFiles(query);
+});
+
+function findFiles(string){
+	var find = string;
+	var result = [];
+	todos.forEach(function (item) {
+		if(item.detail?.indexOf(find) > -1) {
+			result.push(item.id);
+		}
+	});
+	if(result.length > 0){
+		var li = document.querySelectorAll('.li');
+		li.forEach(function (item){
+			if(result.indexOf(item.id) > -1) {
+				const deployElement = item.querySelector('.deploy');
+				deployElement.style.display = 'block';
+                if (deployElement) {
+                    deployElement.innerHTML = deployElement.innerHTML.replace(
+                        string,
+                        `<span class="key-string">${string}</span>`
+                    );
+                }
+			} else {
+				item.style.display = 'none';
+			}
+		});
+	} else {
+		alert('Can not find "' + string + '"');
+	}
 }

@@ -2,7 +2,6 @@
     console.log('init ui.js')
     // 공통 함수수
     toggleSide();
-    findDetail();
     keywordInit();
     dateColorize();
 
@@ -35,7 +34,7 @@ function uptodate(){
                 }
             });
             saveTodos();
-            window.location.reload();
+            renderTodos(todos);
         });
     });
 }
@@ -145,13 +144,16 @@ function keywordInit(){
 function deployView(obj){
 	const li = obj.parentNode.parentNode;
 	var thisID = li.getAttribute('id');
+    
 	var cont;
-	todos.map(function(a){
+    console.log(tabTodos)
+	tabTodos.map(function(a){
 		if(a.id == thisID) {
-			a.deploy ? cont = a.deploy : cont = a.detail
+			cont = a.detail;
 		}
 	});
 	displayCurrent(thisID);
+    console.log(cont)
 	toLayer(cont);
 }
 
@@ -178,7 +180,9 @@ function toLayer(cont){
 }
 function layerRemove(){
     const layer = document.querySelector('.layer');
-	layer.remove();
+    console.log(layer)
+    layer.remove();
+	
     const lists = document.querySelectorAll('.li');
     lists.forEach((li) => {
         li.classList.remove('current');
@@ -186,34 +190,14 @@ function layerRemove(){
 	// setTimeout(function(){$('.li').removeClass('current');}, 5000);
 }
 document.documentElement.addEventListener('click', function(e){
+    const layer = document.querySelector('.layer');
+    if(!layer) {return;}
     if(e.target.classList.contains('layer') ) {
         layerRemove();
-    } 
+    } else {
+        
+    }
 });
-
-// // copy string lists
-// $('.copy-lists .copy-string').bind('click', function(){
-//     var string = $(this).text();
-//     copycont(string);
-// })
-
-// // find string
-// $('#find_string').bind('click', function(){
-//     var query = $('#find_file_string').val();
-//     findFiles(query);
-// });
-
-
-
-
-
-function findDetail(){
-    const dom = `
-        <div class="find-string">
-            <input type="text" id="find_file_string" placeholder="내용 검색"> <button id="find_string">Find</button>
-        </div>
-    `;
-}
 
 function toggleSide() {
     const buttons = document.querySelectorAll('.toggle-side');

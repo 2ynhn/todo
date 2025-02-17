@@ -8,80 +8,20 @@
     --line: rgba(255,255,255,.2);
     --button-radius: 8px;
 }
-body {color:var(--color); background-color:var(--background);}
-a {color:var(--color);}
-ul, div, li, p, span, em, strong {font-size:1rem;}
-button {color:var(--color);}
-
-.head {background-color: var(--background);}
-.head .logo {font-size:1px; text-indent:-999px; overflow:hidden; width:26px; height:26px; background-color:var(--point-1); mask: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAoklEQVR4nO2WSwrCQBAFa+XBdOPNjHfMKho9xpOGEUSm2+nExYgpeJBFeJUmv4YcB+BaYsdf5QhcADmZyjmrmQKJXmQpdsAZuFXKPPSWGRhKl8sQXHWrSCXW5VKbZGnukag2gT1dY1A4AvsPHU2iLNpET1pv/u+Isqh7kZJfC3UvyqLuRdreI/5SNC/8m6oSW8lcop0hm1Mkss3FZGsmq25BD3W2Gy82UuTOAAAAAElFTkSuQmCC');}
-.head .how {} 
-#keywords {margin-top: 24px; padding:12px; border:1px solid var(--line); border-radius:var(--button-radius);} 
-#keywords::before {content: 'Keywords'; color: var(--point-1); display:block; margin-bottom: 8px; font-weight: 700; font-size: 1.1rem;}
-#downJson {border-radius:6px; color:#fff; background-color:#3f3f3f;}
-#howtouse {}
-
-.tabs {}
-.tabs .tab {opacity:.8;}
-.tabs .tab.active {opacity: 1;}
-
-.side {background-color: var(--background-2);}
-.side .btn-file {padding: 8px 12px; border:1px solid var(--line); border-radius: var(--button-radius);}
-.toggle-side {background-color: var(--point-1);}
-
-.js-toDoForm {background-color:#111; border-radius:6px;}
-.js-toDoForm input, 
-.js-toDoForm textarea, 
-.js-toDoForm button {padding:3px 10px; font-size:13px; background-color:#cecece; border:0; border-radius:4px;} 
-.js-toDoForm input:focus, .js-toDoForm textarea:focus {background-color:#efefef;} 
-
-.fields > div + div {margin-top: 4px;}
-
-.li {}
-.li + .li {border-top:1px solid rgba(255, 255, 255, .12);}
+.head .logo {background-color:var(--color-2);}
+.js-toDoForm {background-color: var(--line);}
+#Ysubmit {background-color: var(--color); color: var(--background-2);}
 .li .deploy {display: none; vertical-align:top; background-color:#333; color:#ccc;}
 .li button {border:0; border-radius:var(--button-radius);}
 .li.current {background-color:#444;}
-.li .fn-btn {}
-.li .edit-button,
-.li .delete-button,
-.li .save-button,
-.li .cancel-button {cursor: pointer; text-indent: -999px; overflow: hidden; width:20px; height:20px; background-color: var(--color);}
-.li .edit-button {mask: url(./images/edit.png); mask-size:100%;}
-.li .delete-button {mask: url(./images/trash.svg); mask-size:100%;}
-.li .save-button {mask: url(./images/save.png); mask-size:100%;}
-.li .cancel-button {mask: url(./images/cancel.png); mask-size:100%;}
 
-.li.list-checked {background-color:#4c4d52;}
-/* .li.ended.list-checked {background-color:#171718;} */
 .li .project {color:#fff;} 
-li span.date input, 
-li span.project input, 
-li span.title input {border:0; border-radius:2px;} 
 li .deploy-edit {border:0; border-radius:4px;} 
-
-li span.date {color:#bababa;}
-
-.date {color:orange;}
-li.day-in0 .date {color:var(--point-2); font-weight: 700;} /* today */
-li.day-in-3 .date, /* -3day ago */
-li.day-in-2 .date, /* -2day ago */
-li.day-in-1 .date {color:currentColor} /* -1day ago */
-li.day-in1 .date, /* 1day next */
-li.day-in2 .date, /* 2day next */
-li.day-in3 .date {color:currentColor} /* 3day next */ 
-li.ended .title {color:#666;}
-li.ended .date {color:#999}
-li.ended .project {color:#888;}
-li.day-in0.ended .date {}
-
-.find-string input {border-radius:2px; background-color:#333;}
-.find-string input:focus {background-color:#eee;}
-.find-string button {color:#fff; background-color:#3f3f3f; border-radius:2px;}
+.li .edit-button {mask:url(./images/edit-dark.png); mask-size:100%; }
+.li .delete-button {mask:url(./images/trash.svg); mask-size:100%; }
+.li .cancel-button {mask: url(./images/cancel-dark.png); mask-size:100%;}
+.li .end-button {mask: url(./images/check-end.png); mask-size:70%; mask-repeat: no-repeat; mask-position: center;}
 
 .deploy pre {border-radius:6px; border:1px solid #454545; background-color:#2a2a2a;}
 
 .layer {background-color:#fff; border-radius:12px;} 
-.keyword {font-size: 0.9rem; color: var(--color-2);}
-.keyword.active {background-color:var(--color-2); color:var(--background-2); border-radius:4px;}
-.keyword.active.ended {background-color:#ccc; color:#000;}

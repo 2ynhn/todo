@@ -33,10 +33,12 @@ await fetch('./config.json')
             usersInit(users);
 
             // theme css를 적용
-            const link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.href = `./assets/${config.theme}.css`; // 테마에 맞는 CSS 파일 로드
-            document.head.appendChild(link);
+            if(config.theme) {
+                const link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = `./assets/${config.theme}.css`; // 테마에 맞는 CSS 파일 로드
+                document.head.appendChild(link);
+            }
         }
     })
 })();

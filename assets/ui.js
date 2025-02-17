@@ -1,4 +1,5 @@
 (function(){
+    console.log('init ui.js')
     // 공통 함수수
     toggleSide();
     findDetail();
@@ -59,7 +60,6 @@ function dateColorize (){
     };
 
     const lists = document.querySelectorAll('.li');
-    let keywords = [];
     lists.forEach( (that) => {
         var date = that.querySelector('.date');
         var k = 0;
@@ -70,53 +70,78 @@ function dateColorize (){
             }
             k++;
         }
+    });
+}
 
+// add keywords by [] in title
+function keywordInit(){
+    const lists = document.querySelectorAll('.li');
+    let keywords = [];
+    lists.forEach( (that) => {
         // keywords 추출
-        // var title = that.find('span.title');
-        // if(title.text().indexOf('[') > -1 && title.text().indexOf(']') > -1 ) {
-        //     var keywordOrigin = title.text().match(/\[.*\]/gi);
-        //     keywordOrigin += '';
-        //     var keyword = keywordOrigin.split('[').join('');
-        //     keyword = keyword.split(']').join('');
-        //     if(keyword.indexOf(',') > -1) {
-        //         keyword = keyword.replace(/\s/g, '');
-        //         var keys = keyword.split(',');
-        //         keywords = keywords.concat(keys);
-        //         keywords = keywords.filter((item, pos) => keywords.indexOf(item) === pos);
-        //     } else if(keywords.indexOf(keyword) === -1) {
-        //         keywords.push(keyword);	
-        //     }
-
-        //     // li에 keyword가 있으면 class추가
-        //     for(var n = 0; n < keywords.length; n++){
-        //         if(keywordOrigin.indexOf(keywords[n]) > -1) {
-        //             that.addClass('key-' + n);
-        //         }
-        //     }
-        // }
+        let title = that.querySelector('span.title');
+        if(title.innerHTML.indexOf('[') > -1 && title.innerHTML.indexOf(']') > -1 ) {
+            var keywordOrigin = title.innerHTML.match(/\[.*\]/gi);
+            keywordOrigin += '';
+            var keyword = keywordOrigin.split('[').join('');
+            keyword = keyword.split(']').join('');
+            if(keyword.indexOf(',') > -1) {
+                keyword = keyword.replace(/\s/g, '');
+                var keys = keyword.split(',');
+                keywords = keywords.concat(keys);
+                keywords = keywords.filter((item, pos) => keywords.indexOf(item) === pos);
+            } else if(keywords.indexOf(keyword) === -1) {
+                keywords.push(keyword);	
+            }
+            // li에 keyword가 있으면 class추가
+            for(var n = 0; n < keywords.length; n++){
+                if(keywordOrigin.indexOf(keywords[n]) > -1) {
+                    that.classList.add('key-' + n);
+                }
+            }
+        }
     });
 
+    const side = document.getElementById('side'); 
+    const keyWrap = document.getElementById('keywords'); 
+    if(keyWrap === null) {
+        const keyElement = document.createElement("div");
+        keyElement.id = "keywords";
+        side.appendChild(keyElement);
+    } else {
+        if(keyWrap.childNodes.length) {
+            keyWrap.innerHTML = '';
+        }
+    }
+    for(var j=0; j < keywords.length; j++){
+        const keys = document.getElementById('keywords');
+        const tag = '<a href="#" class="keyword" key_value="key-' + j + '">' + keywords[j] + '</a>';
+        keys.insertAdjacentHTML("beforeend", tag);
+    }
+
+    const keyBtns = document.querySelectorAll(`a[key_value*="key-"]`);
+    keyBtns.forEach((i)=>{
+        i.addEventListener('click', function(){
+            const keyclass = this.getAttribute('key_value');
+            const tagLi = document.querySelectorAll('.li.' + keyclass);
+            console.log('.li.' + keyclass)
+            if(this.classList.contains('active')){
+                this.classList.remove('active');
+                tagLi.forEach((item)=>{
+                    item.classList.remove('list-checked');
+                });
+            } else {
+                this.classList.add('active');
+                tagLi.forEach((item)=>{
+                    item.classList.add('list-checked');
+                });
+            }
+            return false;
+        });
+    });
 }
 
 
-
-// keywords 버튼 추가
-// for(var j=0; j < keywords.length; j++){
-//     $('<a href="#" class="keyword" key_value="key-' + j + '">' + keywords[j] + '</a>')
-//     .appendTo($('#keywords'))
-//     .bind('click', function(){
-//         var that = $(this);
-//         var keyclass = that.attr('key_value');
-//         if(that.hasClass('active')){
-//             that.removeClass('active');
-//             $('.li.' + keyclass).removeClass('list-checked');
-//         } else {
-//             that.addClass('active');
-//             $('.li.' + keyclass).addClass('list-checked');
-//         }
-//         return false;
-//     });
-// }
 
 // // copy string lists
 // $('.copy-lists .copy-string').bind('click', function(){
@@ -139,12 +164,6 @@ function findDetail(){
         <div class="find-string">
             <input type="text" id="find_file_string" placeholder="내용 검색"> <button id="find_string">Find</button>
         </div>
-    `;
-}
-
-function keywordInit(){
-    const dom = `
-        <div id="keywords"></div>
     `;
 }
 

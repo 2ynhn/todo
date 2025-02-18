@@ -1,5 +1,7 @@
 # todo
-todo list, node file system save json, multi user
+다중 사용자를 위한 todo list 입니다.
+사용자들의 todo data는 서버나 db를 사용하지 않고 git이나 svn같은 리모트 저장소로 공유합니다.
+본인의 todo를 작성과 수정할 수 있고 다른 유저의 todo는 조회만 가능합니다.
 
 
 ## node 설치, 버전 확인
@@ -17,7 +19,7 @@ $ npm install
 ```
 $ npm start
 ```
-- 실행결과 : localhost:3000 이 열립니다.
+- 실행결과 : localhost:3000 로 서비스를 확인하세요.
 - 서버 중지 : 터미널에서 Ctrl + C 로 express 중지 
 - server.js 수정 시 서버 재 시작이 필요합니다.
 

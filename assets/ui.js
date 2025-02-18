@@ -141,7 +141,7 @@ function keywordInit(){
 }
 
 // view Detail
-function deployView(obj){
+function detailView(obj){
 	const li = obj.parentNode.parentNode;
 	var thisID = li.getAttribute('id');
     

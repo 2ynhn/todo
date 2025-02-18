@@ -76,12 +76,13 @@ a {text-decoration:none; color:var(--color);}
 .js-toDoForm textarea, 
 .js-toDoForm button {padding:3px 10px; font-size:13px; display:inline-block; vertical-align:top; line-height:1.5; box-sizing:border-box;} 
 .js-toDoForm input:focus, .js-toDoForm textarea:focus {background-color:var(--background);} 
+.js-toDoForm .detail {display: block;}
 
 .fields .date-title {display: flex; gap: 4px;}
 .fields input, .fields textarea {width: 100%; border-radius:4px}
 .fields > div + div {margin-top: 4px;}
 #Ydate {flex:0 0 80px}
-#Ytitle {flex:1;}
+#Y {flex:1;}
 #Ysubmit {width:100%; height:100%; font-size:16px; font-weight:bold; background-color:#fff; border-radius:var(--button-radius);} 
 
 .li {position:relative; padding:4px 8px; width: 100%; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; line-height:24px;}
@@ -91,7 +92,7 @@ a {text-decoration:none; color:var(--color);}
 .li .functions button {font-size: 0.8rem;}
 .li .date {flex:0 0 80px; font-size: 0.8rem;}
 .li .title {font-size: .9rem;}
-.li .deploy {display: none; flex-basis:100%;}
+.li .detail {display: none; flex-basis:100%;}
 .li .title {margin:0;} 
 .li .fn-btn {position:absolute; top:6px; right:40px; transform:translateX(100%); text-align:right; opacity:0; transition:opacity .2s;} 
 .li:hover .fn-btn {opacity:1;} 
@@ -113,7 +114,7 @@ a {text-decoration:none; color:var(--color);}
 .work-list {position:relative;}
 .ul {}
 .work-list.on-edit .fn-btn, 
-.work-list.on-edit .deploy-file {display:none;} 
+.work-list.on-edit .detail-file {display:none;} 
 .li .delete, 
 .li .edit, 
 .li .submit {} 
@@ -131,14 +132,14 @@ li span.project input,
 li span.title input {position:relative; left:50%; transform:translateX(-50%); width:100%; border:0; border-radius:2px;} 
 li span.title input {min-width:230%; left:0; transform:translateX(0);} 
 li span.project input {max-width:70px;} 
-li .deploy-edit {position:absolute; padding:15px 10px; top:30px; left:0; min-height:200px; z-index:10;} 
+li .detail-edit {position:absolute; padding:15px 10px; top:30px; left:0; min-height:200px; z-index:10;} 
 
 .li .edit-button,
 .li .delete-button,
 .li .end-button,
 .li .save-button,
 .li .url,
-.li .deploy-file,
+.li .detail-file,
 .li .cancel-button {cursor: pointer; text-indent: -999px; overflow: hidden; width:20px; height:20px; background-color: var(--color);}
 .li .edit-button {mask: url(./images/edit.png); mask-size:100%;}
 .li .delete-button {mask: url(./images/trash.png); mask-size:100%;}
@@ -146,7 +147,7 @@ li .deploy-edit {position:absolute; padding:15px 10px; top:30px; left:0; min-hei
 .li .cancel-button {mask: url(./images/cancel.png); mask-size:100%;}
 .li .end-button {mask: url(./images/check-end.png); mask-size:70%; mask-repeat: no-repeat; mask-position: center;}
 .li .url {display:inline-block; vertical-align: middle; mask: url(./images/link.png); mask-size:100%;}
-.li .deploy-file {mask: url(./images/detail.png); mask-size:100%;}
+.li .detail-file {mask: url(./images/detail.png); mask-size:100%;}
 .li .url + .edit-button {margin-left: 24px;}
 
 li[class*="day-in"] 
@@ -164,9 +165,9 @@ li.ended .date {color:#999}
 li.ended .project {color:#888;}
 li.current {background-color: var(--background-2);}
 
-.deploy {font-size:0; display:none;} 
-.deploy pre {font-size:14px; padding:10px; border:1px solid var(--line); border-radius: var(--button-radius); background-color: var(--background-3);} 
-.deploy .key-string {color: var(--point-2); font-weight: 700;}
+.detail {font-size:0; display:none;} 
+.detail pre {font-size:14px; padding:10px; border:1px solid var(--line); border-radius: var(--button-radius); background-color: var(--background-3);} 
+.detail .key-string {color: var(--point-2); font-weight: 700;}
 .layer {position: fixed; top: 0;left: 0;right: 0;bottom: 0; background-color: var(--line); z-index: 11;} 
 .layer .cont {position:fixed; width:600px; height:auto; top:50%; left:50%; transform:translate(-50%, -50%); padding:20px 14px; background-color: var(--background-3); border-radius: var(--button-radius);} 
 .layer .cont textarea {padding:10px 14px; width: calc(100% - 28px); background-color: var(--background); border-radius: var(--button-radius);}

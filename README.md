@@ -1,7 +1,7 @@
 # todo
-This is a To-Do list for multiple users. Users' To-Do data is shared through a remote repository such as Git or SVN, without using a server or database. You can create and edit your own To-Do items, but you can only view other users' To-Do items.
+- This is a To-Do list for multiple users. Users' To-Do data is shared through a remote repository such as Git or SVN, without using a server or database. You can create and edit your own To-Do items, but you can only view other users' To-Do items.
 다중 사용자를 위한 todo list 입니다.
-사용자들의 todo data는 서버나 db를 사용하지 않고 git이나 svn같은 리모트 저장소로 공유합니다.
+- 사용자들의 todo data는 서버나 db를 사용하지 않고 git이나 svn같은 리모트 저장소로 공유합니다.
 본인의 todo를 작성과 수정할 수 있고 다른 유저의 todo는 조회만 가능합니다.
 
 

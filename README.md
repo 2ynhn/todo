@@ -1,4 +1,5 @@
 # todo
+This is a To-Do list for multiple users. Users' To-Do data is shared through a remote repository such as Git or SVN, without using a server or database. You can create and edit your own To-Do items, but you can only view other users' To-Do items.
 다중 사용자를 위한 todo list 입니다.
 사용자들의 todo data는 서버나 db를 사용하지 않고 git이나 svn같은 리모트 저장소로 공유합니다.
 본인의 todo를 작성과 수정할 수 있고 다른 유저의 todo는 조회만 가능합니다.
@@ -19,11 +20,18 @@ $ npm install
 ```
 $ npm start
 ```
+- Execution Result: Check the service at localhost:3000
+- Stop Server: Stop Express in the terminal using Ctrl + C
+- Server Restart: Restart the server when modifying server.js
 - 실행결과 : localhost:3000 로 서비스를 확인하세요.
 - 서버 중지 : 터미널에서 Ctrl + C 로 express 중지 
 - server.js 수정 시 서버 재 시작이 필요합니다.
 
 ## config.js
+- Add config.js to .gitignore.
+- Assign one of the users the role of master.
+- Theme: Setting "dark" loads dark.css (for personal customization).
+- Plugins: You can add JavaScript files as an array in plugins.
 - config.js 는 gitignore 에 추가하세요.
 - users 중 한명에게 role : master 로 지정 해 주세요.
 - theme : "dark" => dark.css를 추가로 로드합니다. (개인 커스텀 용)

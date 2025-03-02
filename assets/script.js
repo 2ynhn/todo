@@ -11,7 +11,7 @@ let todos = JSON.parse(localStorage.getItem('todos')) || [];
 let tabTodos = [];
 
 // users by config.json
-let config, users, masterId, activeUser;
+let config, users, masterId, activeUser, token, channelId;
 
 (async function () {
 	await fetch('/masterUserId')
@@ -31,6 +31,9 @@ let config, users, masterId, activeUser;
 			if (config && config.users && Array.isArray(config.users)) {
 				// users를 사용하여 탭 생성 및 이벤트 처리
 				users = config.users;
+				token = config.token;
+				channelId = config.channelId;
+				console.log('Users:', users, 'Token:', token, 'Channel ID:', channelId);
 				usersInit(users);
 
 				// theme css를 적용
@@ -76,15 +79,31 @@ async function currentTabInit(userId) {
 }
 
 async function loadTodoData(userId) {
-	try {
+	if(userId === masterId) {
 		const response = await fetch(`./data/${userId}.json`);
 		const todoData = await response.json();
 		activeUser = userId; // activeUser = userId;
 		renderTodos(todoData);
 		tabTodos = todoData;
 		currentTabInit(userId);
-	} catch (error) {
-		console.error('Error loading todo data:', error);
+	} 
+	else {
+		const files = await fetchSlackFiles(token, channelId);
+		files.forEach(file => {
+			// console.log(file.name);
+		});
+		const userFile = files.find(file => file.name === `${userId}.json` || file.name === `${userId}_json.json`);
+		
+		if (userFile) {
+			const fileContent = await fetchSlackFileContent(token, userFile.id);
+			todos = JSON.parse(fileContent);
+			activeUser = userId;
+			renderTodos(todos);
+			tabTodos = todos;
+			currentTabInit(userId);
+		} else {
+			console.error('User file not found on Slack');
+		}
 	}
 }
 
@@ -372,4 +391,20 @@ function findFiles(string) {
 	} else {
 		alert('Can not find "' + string + '"');
 	}
+}
+
+async function fetchSlackFiles(token, channelId) {
+    const response = await fetch(`/slack/files?token=${token}&channel=${channelId}`);
+    const data = await response.json();
+    if (data.ok) {
+        return data.files;
+    } else {
+        throw new Error(`Error fetching files from Slack: ${data.error}`);
+    }
+}
+
+async function fetchSlackFileContent(token, fileId) {
+    const response = await fetch(`/slack/file?token=${token}&file=${fileId}`);
+    const data = await response.json();
+	return data.content;
 }

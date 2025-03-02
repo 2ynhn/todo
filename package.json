@@ -1,8 +1,10 @@
 {
-  "script" : {
-    "start" : "npm run server.js"
+  "script": {
+    "start": "npm run server.js"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "node-fetch": "^2.7.0"
   }
 }

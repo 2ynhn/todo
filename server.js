@@ -1,9 +1,15 @@
 const express = require('express');
+const cors = require('cors');
+const fetch = require('node-fetch');
 const fs = require('fs');
 const app = express();
 const port = 3000;
 const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 const users = config.users;
+
+// CORS 미들웨어 추가
+app.use(cors());
+
 app.use(express.json());
 app.use(express.static(__dirname));
 
@@ -33,6 +39,35 @@ app.get('/masterUserId', (req, res) => {
         res.status(404).json({ message: 'Master user not found.' });
     }
 });
+
+// 프록시 엔드포인트 추가
+app.get('/slack/files', async (req, res) => {
+    const token = req.query.token;
+    const channelId = req.query.channel;
+    const response = await fetch(`https://slack.com/api/files.list?channel=${channelId}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    const data = await response.json();
+    res.json(data);
+});
+
+app.get('/slack/file', async (req, res) => {
+    const token = req.query.token;
+    const fileId = req.query.file;
+    const response = await fetch(`https://slack.com/api/files.info?file=${fileId}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    const data = await response.json();
+    res.json(data);
+});
+
+
 
 app.post('/save', (req, res) => {
     console.log(req.body);

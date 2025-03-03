@@ -35,7 +35,7 @@ a {text-decoration:none; color:var(--color);}
 .side .btn-file {padding: 8px 12px; color: var(--point-1); font-weight: 700; border-radius: var(--button-radius); background-color: var(--background-3);}
 .side #file-input {display: none;}
 .side .btn-file {position: relative; font-size: 1rem; width: 100%; text-align:center;}
-.side .btn-file + .btn-file {margin-top:8px;}
+.side .btn-file ~ .btn-file {margin-top:8px;}
 #save-check {position: absolute; right:4px; top:50%; margin-top:-9px; opacity: 0; width: 18px; height: 18px; background: url(./images/check.png) no-repeat center; background-size: 100%;}
 #save-check.motion {animation: check 2s ease-in-out forwards;}
 @keyframes check {

@@ -3,8 +3,11 @@
     "start": "npm run server.js"
   },
   "dependencies": {
+    "blob-polyfill": "^9.0.20240710",
+    "buffer": "^6.0.3",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "form-data": "^4.0.2",
     "node-fetch": "^2.7.0"
   }
 }

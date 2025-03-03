@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const fs = require('fs');
+const FormData = require('form-data');
+const { Blob } = require('blob-polyfill');
+const { Buffer } = require('buffer');
 const app = express();
 const port = 3000;
 const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
@@ -67,6 +70,82 @@ app.get('/slack/file', async (req, res) => {
     res.json(data);
 });
 
+app.post('/slack/upload', async (req, res) => {
+    try {
+        const token = req.body.token;
+        const channelId = req.body.channel;
+        const fileName = req.body.filename;
+        const fileContent = req.body.fileContent;
+
+        // ⚠️ 파일 크기 계산 (파일이 비어 있으면 오류 발생)
+        const fileSize = Buffer.byteLength(fileContent, 'utf8');
+        if (fileSize === 0) {
+            throw new Error('File content cannot be empty.');
+        }
+
+        // 1️⃣ Slack에 업로드 URL 요청
+        const uploadUrlResponse = await fetch('https://slack.com/api/files.getUploadURLExternal', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                filename: fileName,
+                length: fileSize // ✅ 파일 크기 올바르게 설정
+            })
+        });
+
+        const uploadUrlData = await uploadUrlResponse.json();
+        if (!uploadUrlData.ok) {
+            throw new Error(`Error getting upload URL: ${uploadUrlData.error}`);
+        }
+
+        const uploadUrl = uploadUrlData.upload_url;
+        const fileId = uploadUrlData.file_id;
+
+        console.log('🔹 Upload URL received:', uploadUrl);
+
+        // 2️⃣ 업로드 URL에 파일 업로드
+        const uploadResponse = await fetch(uploadUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: fileContent
+        });
+
+        if (!uploadResponse.ok) {
+            throw new Error('File upload failed');
+        }
+
+        console.log('✅ File uploaded successfully');
+
+        // 3️⃣ Slack에 업로드 완료 알리기
+        const completeResponse = await fetch('https://slack.com/api/files.completeUploadExternal', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                files: [{ id: fileId }],
+                channel_id: channelId
+            })
+        });
+
+        const completeData = await completeResponse.json();
+        if (!completeData.ok) {
+            throw new Error(`Error completing upload: ${completeData.error}`);
+        }
+
+        console.log('✅ Upload completed on Slack:', completeData);
+        res.json(completeData);
+    } catch (error) {
+        console.error('Upload Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 
 app.post('/save', (req, res) => {

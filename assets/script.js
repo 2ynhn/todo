@@ -7,7 +7,7 @@ const todoList = document.getElementById('todo-list');
 const loadButton = document.getElementById('load-button');
 const fileInput = document.getElementById('file-input');
 const saveButton = document.getElementById('save-button');
-let todos = JSON.parse(localStorage.getItem('todos')) || [];
+let todos = [];
 let tabTodos = [];
 
 // users by config.json
@@ -33,7 +33,6 @@ let config, users, masterId, activeUser, token, channelId;
 				users = config.users;
 				token = config.token;
 				channelId = config.channelId;
-				console.log('Users:', users, 'Token:', token, 'Channel ID:', channelId);
 				usersInit(users);
 
 				// theme css를 적용
@@ -82,6 +81,7 @@ async function loadTodoData(userId) {
 	if(userId === masterId) {
 		const response = await fetch(`./data/${userId}.json`);
 		const todoData = await response.json();
+		todos = todoData;
 		activeUser = userId; // activeUser = userId;
 		renderTodos(todoData);
 		tabTodos = todoData;
@@ -90,7 +90,7 @@ async function loadTodoData(userId) {
 	else {
 		const files = await fetchSlackFiles(token, channelId);
 		files.forEach(file => {
-			// console.log(file.name);
+			console.log(file.name);
 		});
 		const userFile = files.find(file => file.name === `${userId}.json` || file.name === `${userId}_json.json`);
 		
@@ -408,3 +408,46 @@ async function fetchSlackFileContent(token, fileId) {
     const data = await response.json();
 	return data.content;
 }
+
+document.getElementById('copy-button').addEventListener('click', async () => {
+    try {
+        const fileName = `${activeUser}.json`; // 파일명
+        const fileContent = JSON.stringify(todos, null, 2); // 파일 내용
+
+        // 클립보드에 파일 내용 복사
+        await navigator.clipboard.writeText(fileContent);
+        console.log(`File content of ${fileName} copied to clipboard`);
+    } catch (error) {
+        console.error('Error copying file content to clipboard:', error);
+    }
+});
+
+// document.getElementById('upload-button').addEventListener('click', async () => {
+document.documentElement.addEventListener('click', async (event) => {
+	if (event.target.classList.contains('upload-button')) {
+        const fileName = `${masterId}.json`; // 파일명
+        const fileContent = JSON.stringify(todos, null, 2); // 파일 내용
+
+        // 파일 업로드 요청
+        const response = await fetch('/slack/upload', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token: token,
+                channel: channelId,
+                filename: fileName,
+                fileContent: fileContent
+            })
+        });
+
+        const data = await response.json();
+        console.log(data);
+        if (data.ok) {
+            alert('파일 업로드 완료!');
+        } else {
+            alert(`업로드 실패: ${data.error}`);
+        }
+    }
+});

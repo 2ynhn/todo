@@ -16,12 +16,19 @@ $ npm -v
 $ npm install
 ```
 
+
+## 슬랙에서 채널을 생성 후 채널 ID를 config.json에 넣어줍니다.
+
+## 슬랙 API에서 new app을 만들고 files:read 권한을 부여, 토큰을 config.json에 넣어줍니다.
+
 ## 루트 디렉토리에 config.json 작성
 ```
 {
     "system_settings": {
       "version": "1.0"
     },
+    "channelId": "XXXXXX",
+    "token": "xoxp-XXXXXX",
     "theme" : "",
     "plugins" : [
       "ui.js"
@@ -65,7 +72,7 @@ $ npm install
     }
   }
 ```
-각 user의 id, name, role 을 작성합니다.
+channelId, token 을 기입하고 각 user의 id, name, role 을 작성합니다.
 본인의 id에는 role 이 master, 그 외에는 member입니다.
 
 ## express 서버 실행 : package.json 의 "script" 의 "start" 를 수행합니다.

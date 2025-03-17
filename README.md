@@ -16,6 +16,58 @@ $ npm -v
 $ npm install
 ```
 
+## 루트 디렉토리에 config.json 작성
+```
+{
+    "system_settings": {
+      "version": "1.0"
+    },
+    "theme" : "",
+    "plugins" : [
+      "ui.js"
+    ],
+    "users": [
+      {
+        "id": "2yunhan",
+        "name": "yh2",
+        "role": "master",
+        "permissions": {
+          "system_control": true,
+          "user_management": true,
+          "content_modification": true
+        },
+        "active": true
+      },
+      {
+        "id": "metallica",
+        "name": "kim teahyung",
+        "role": "member",
+        "permissions": {
+          "system_control": false,
+          "user_management": false,
+          "content_modification": false
+        },
+        "active": true
+      },
+      {
+        "id": "nice-guy",
+        "name": "gilsub",
+        "role": "member",
+        "permissions": {
+          "system_control": false,
+          "user_management": false,
+          "content_modification": true
+        },
+        "active": true
+      }
+    ],
+    
+    }
+  }
+```
+각 user의 id, name, role 을 작성합니다.
+본인의 id에는 role 이 master, 그 외에는 member입니다.
+
 ## express 서버 실행 : package.json 의 "script" 의 "start" 를 수행합니다.
 ```
 $ npm start
